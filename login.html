@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Owner Authorization</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght=300;400;500;600;700&display=swap');
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #0c100a; }
+        .glass-box { background: rgba(17, 23, 15, 0.95); border: 1px solid rgba(32, 46, 28, 0.7); }
+    </style>
+</head>
+<body class="text-slate-200 min-h-screen flex items-center justify-center p-4">
+
+    <div class="w-full max-w-md glass-box rounded-2xl p-6 relative shadow-2xl">
+        <a href="index.html" class="absolute top-4 right-4 text-slate-500 hover:text-slate-300 transition"><i class="fa-solid fa-xmark text-lg"></i></a>
+        
+        <div class="flex justify-center mb-4">
+            <div class="w-14 h-14 bg-emerald-950/60 border border-emerald-500/30 rounded-full flex items-center justify-center text-emerald-400 text-xl shadow-inner"><i class="fa-solid fa-lock"></i></div>
+        </div>
+
+        <div class="text-center mb-5">
+            <h1 class="text-xl font-bold text-white tracking-wide">Owner Authorization</h1>
+            <p class="text-xs text-slate-400 mt-1">Gunakan akun administrator untuk mengelola konten web.</p>
+        </div>
+
+        <div id="error-alert" class="hidden mb-4 p-3 bg-red-950/40 border border-red-900/60 rounded-xl flex items-center gap-2.5 text-red-400 text-xs">
+            <i class="fa-solid fa-circle-exclamation text-sm flex-shrink-0"></i>
+            <span>Kredensial Akses Workspace Salah!</span>
+        </div>
+
+        <form onsubmit="handleLogin(event)" class="space-y-4">
+            <div>
+                <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">Workspace User ID</label>
+                <input type="text" id="input-username" autocomplete="off" required class="w-full bg-[#070a06] border border-[#1e2a1b] text-sm p-3 rounded-xl text-white focus:outline-none focus:border-emerald-500/60 transition">
+            </div>
+            <div>
+                <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">Access Key Crypt</label>
+                <input type="password" id="input-password" required class="w-full bg-[#070a06] border border-[#1e2a1b] text-sm p-3 rounded-xl text-white focus:outline-none focus:border-emerald-500/60 transition">
+            </div>
+            <button type="submit" class="w-full bg-emerald-500 hover:bg-emerald-400 text-neutral-950 font-bold text-sm py-3 rounded-xl transition duration-200 mt-2">
+                <i class="fa-solid fa-shield-halved mr-1.5 text-xs"></i> Autentikasi Masuk
+            </button>
+        </form>
+    </div>
+
+    <script>
+        if (localStorage.getItem('uzi_session_active') === 'true') { window.location.href = 'owner.html'; }
+
+        function handleLogin(e) {
+            e.preventDefault();
+            const u = document.getElementById('input-username').value.trim();
+            const p = document.getElementById('input-password').value.trim();
+            const err = document.getElementById('error-alert');
+
+            if (u === "UZI" && p === "ABHINAYA2013") {
+                err.add('hidden');
+                localStorage.setItem('uzi_session_active', 'true');
+                window.location.href = 'owner.html';
+            } else {
+                err.classList.remove('hidden');
+            }
+        }
+    </script>
+</body>
+</html>
