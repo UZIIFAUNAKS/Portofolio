@@ -15,10 +15,14 @@
 <body class="text-slate-200 min-h-screen flex items-center justify-center p-4">
 
     <div class="w-full max-w-md glass-box rounded-2xl p-6 relative shadow-2xl">
-        <a href="index.html" class="absolute top-4 right-4 text-slate-500 hover:text-slate-300 transition"><i class="fa-solid fa-xmark text-lg"></i></a>
+        <a href="index.html" class="absolute top-4 right-4 text-slate-500 hover:text-slate-300 transition">
+            <i class="fa-solid fa-xmark text-lg"></i>
+        </a>
         
         <div class="flex justify-center mb-4">
-            <div class="w-14 h-14 bg-emerald-950/60 border border-emerald-500/30 rounded-full flex items-center justify-center text-emerald-400 text-xl shadow-inner"><i class="fa-solid fa-lock"></i></div>
+            <div class="w-14 h-14 bg-emerald-950/60 border border-emerald-500/30 rounded-full flex items-center justify-center text-emerald-400 text-xl shadow-inner">
+                <i class="fa-solid fa-lock"></i>
+            </div>
         </div>
 
         <div class="text-center mb-5">
@@ -33,12 +37,12 @@
 
         <form onsubmit="handleLogin(event)" class="space-y-4">
             <div>
-                <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">Workspace User ID</label>
-                <input type="text" id="input-username" autocomplete="off" required class="w-full bg-[#070a06] border border-[#1e2a1b] text-sm p-3 rounded-xl text-white focus:outline-none focus:border-emerald-500/60 transition">
+                <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">WORKSPACE USER ID</label>
+                <input type="text" id="input-username" required class="w-full bg-[#070a06] border border-[#1e2a1b] text-sm p-3 rounded-xl text-white focus:outline-none focus:border-emerald-500/60 transition" placeholder="Masukkan ID...">
             </div>
             <div>
-                <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">Access Key Crypt</label>
-                <input type="password" id="input-password" required class="w-full bg-[#070a06] border border-[#1e2a1b] text-sm p-3 rounded-xl text-white focus:outline-none focus:border-emerald-500/60 transition">
+                <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">ACCESS KEY CRYPT</label>
+                <input type="password" id="input-password" required class="w-full bg-[#070a06] border border-[#1e2a1b] text-sm p-3 rounded-xl text-white focus:outline-none focus:border-emerald-500/60 transition" placeholder="Masukkan Password...">
             </div>
             <button type="submit" class="w-full bg-emerald-500 hover:bg-emerald-400 text-neutral-950 font-bold text-sm py-3 rounded-xl transition duration-200 mt-2">
                 <i class="fa-solid fa-shield-halved mr-1.5 text-xs"></i> Autentikasi Masuk
@@ -47,16 +51,22 @@
     </div>
 
     <script>
-        if (localStorage.getItem('uzi_session_active') === 'true') { window.location.href = 'owner.html'; }
+        // Cek sesi aktif
+        if (localStorage.getItem('uzi_session_active') === 'true') { 
+            window.location.href = 'owner.html'; 
+        }
 
         function handleLogin(e) {
             e.preventDefault();
+            
+            // Mengambil input dan menghapus spasi yang mungkin tidak sengaja terbawa
             const u = document.getElementById('input-username').value.trim();
             const p = document.getElementById('input-password').value.trim();
             const err = document.getElementById('error-alert');
 
+            // Cek kecocokan kredensial
             if (u === "UZI" && p === "ABHINAYA2013") {
-                err.add('hidden');
+                err.classList.add('hidden');
                 localStorage.setItem('uzi_session_active', 'true');
                 window.location.href = 'owner.html';
             } else {
