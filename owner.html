@@ -215,7 +215,8 @@
                 type: document.getElementById('widget-type').value,
                 sub: document.getElementById('widget-sub').value || 'System',
                 content: document.getElementById('widget-content').value,
-                mediaUrl: document.getElementById('widget-media-url').value
+                mediaUrl: document.getElementById('widget-media-url').value,
+                timestamp: Date.now() // TIMESTAMP DITAMBAHKAN DI SINI
             });
             document.getElementById('widget-content').value = '';
             document.getElementById('widget-media-url').value = '';
