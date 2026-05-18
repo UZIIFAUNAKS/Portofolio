@@ -96,7 +96,7 @@
                         <input type="text" id="widget-sub" placeholder="Sumber (Me/Spotify)" class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2 rounded text-white">
                     </div>
                     <input type="text" id="widget-content" placeholder="Konten Deskripsi..." class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2 rounded text-white">
-                    <input type="text" id="widget-media-url" placeholder="Direct Link Gambar (Gunakan Imgur / ImgBB)" class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2 rounded text-white">
+                    <input type="text" id="widget-media-url" placeholder="Direct Link Gambar" class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2 rounded text-white">
                     <button onclick="pushWidget()" class="w-full bg-emerald-500 text-neutral-950 font-bold text-xs py-2 rounded">Push Widget</button>
                 </div>
             </div>
@@ -105,7 +105,7 @@
                 <span class="text-[10px] font-bold text-emerald-400 uppercase block">Tambah Pengalaman & Sertifikat</span>
                 <div class="grid grid-cols-2 gap-3">
                     <input type="text" id="exp-title" placeholder="Nama Sertifikasi / Judul Proyek" class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2 rounded text-white">
-                    <input type="text" id="exp-media-url" placeholder="Direct Link File Sertifikat Gambar" class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2 rounded text-white">
+                    <input type="text" id="exp-media-url" placeholder="Direct Link File Gambar" class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2 rounded text-white">
                 </div>
                 <input type="text" id="exp-summary" placeholder="Deskripsi penjelasan singkat..." class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2 rounded text-white">
                 <div class="grid grid-cols-2 gap-3">
@@ -216,7 +216,7 @@
                 sub: document.getElementById('widget-sub').value || 'System',
                 content: document.getElementById('widget-content').value,
                 mediaUrl: document.getElementById('widget-media-url').value,
-                timestamp: Date.now() // TIMESTAMP DITAMBAHKAN DI SINI
+                timestamp: Date.now()
             });
             document.getElementById('widget-content').value = '';
             document.getElementById('widget-media-url').value = '';
