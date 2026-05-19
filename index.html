@@ -49,9 +49,7 @@
         </div>
 
         <section id="content-status" class="tab-content grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></section>
-        
         <section id="content-pengalaman" class="tab-content hidden grid grid-cols-1 md:grid-cols-2 gap-6"></section>
-
         <section id="content-video" class="tab-content hidden grid grid-cols-1 md:grid-cols-3 gap-6"></section>
     </main>
 
@@ -71,7 +69,9 @@
 
         function switchTab(t) {
             document.querySelectorAll('.tab-content').forEach(c => c.classList.add('hidden'));
-            document.querySelectorAll('main button').forEach(b => b.classList.remove('active-tab'));
+            document.querySelectorAll('main button').forEach(b => b.classList.remove('active-tab', 'text-emerald-400'));
+            document.querySelectorAll('main button').forEach(b => b.classList.add('text-slate-400'));
+            
             document.getElementById(`content-${t}`).classList.remove('hidden');
             document.getElementById(`tab-${t}`).classList.add('active-tab', 'text-emerald-400');
             document.getElementById(`tab-${t}`).classList.remove('text-slate-400');
@@ -86,18 +86,20 @@
             return Math.floor(sec / 86400) + ' hari lalu';
         }
 
+        // Real-time Profile
         db.ref('profile/').on('value', snap => {
             const data = snap.val() || {};
             document.getElementById('profile-name').innerText = data.name || 'UZIIFAUNAK';
             document.getElementById('profile-bio').innerText = data.bio || 'Bio belum diatur.';
         });
 
-        // TAMBAHAN: Render Status Update (Disesuaikan dengan field baru)
+        // Real-time Status Update (Fix Multi-spot)
         db.ref('widgets/').on('value', snap => {
-            const container = document.getElementById('content-status');
-            container.innerHTML = '';
             let items = [];
             snap.forEach(child => items.push(child.val()));
+            
+            let htmlContent = ''; // Teknik akumulasi string agar render stabil & tidak terpotong
+            
             items.reverse().forEach(w => {
                 let fileHtml = '';
                 if(w.file) {
@@ -108,7 +110,7 @@
                     }
                 }
                 
-                container.innerHTML += `
+                htmlContent += `
                 <div class="card-dark p-5 rounded-2xl flex flex-col justify-between">
                     <div>
                         <div class="flex justify-between items-center mb-3">
@@ -122,17 +124,20 @@
                     <span class="text-[9px] text-slate-500 block mt-4 border-t border-emerald-900/30 pt-3"><i class="fa-regular fa-clock mr-1"></i> ${timeAgo(w.timestamp)}</span>
                 </div>`;
             });
+            
+            document.getElementById('content-status').innerHTML = htmlContent || '<p class="text-slate-500 italic col-span-full text-center">Belum ada pembaruan status.</p>';
         });
 
-        // TAMBAHAN: Render Pengalaman Update (Sesuai field baru & Timestamp)
+        // Real-time Pengalaman Update (Fix Multi-spot)
         db.ref('experiences/').on('value', snap => {
-            const container = document.getElementById('content-pengalaman');
-            container.innerHTML = '';
             let items = [];
             snap.forEach(child => items.push(child.val()));
+            
+            let htmlContent = '';
+            
             items.reverse().forEach(e => {
                 let imgHtml = e.img ? `<img src="${e.img}" class="w-full mt-4 rounded-xl border border-emerald-900/50" alt="Sertifikat">` : '';
-                container.innerHTML += `
+                htmlContent += `
                 <div class="card-dark p-6 rounded-2xl relative">
                     <div class="flex justify-between items-start gap-4">
                         <div>
@@ -150,22 +155,27 @@
                     </div>
                 </div>`;
             });
+            
+            document.getElementById('content-pengalaman').innerHTML = htmlContent || '<p class="text-slate-500 italic col-span-full text-center">Belum ada data pengalaman.</p>';
         });
 
-        // TAMBAHAN: Render Video dengan Timestamp
+        // Real-time Video Update (Fix Multi-spot)
         db.ref('videos/').on('value', snap => {
-            const container = document.getElementById('content-video');
-            container.innerHTML = '';
             let items = [];
             snap.forEach(child => items.push(child.val()));
+            
+            let htmlContent = '';
+            
             items.reverse().forEach(v => {
-                container.innerHTML += `
+                htmlContent += `
                 <div class="card-dark rounded-xl overflow-hidden p-3 pb-4">
                     <video src="${v.url}" controls class="w-full rounded-lg bg-black aspect-video"></video>
                     <p class="text-sm font-bold mt-3 text-white px-1">${v.title || 'Video'}</p>
                     <span class="text-[10px] text-slate-500 block mt-2 px-1"><i class="fa-regular fa-clock mr-1"></i> ${timeAgo(v.timestamp)}</span>
                 </div>`;
             });
+            
+            document.getElementById('content-video').innerHTML = htmlContent || '<p class="text-slate-500 italic col-span-full text-center">Belum ada video.</p>';
         });
 
         document.addEventListener("DOMContentLoaded", () => { switchTab('status'); });
