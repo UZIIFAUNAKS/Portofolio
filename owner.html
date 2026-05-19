@@ -135,7 +135,7 @@
         
         function handleLogout() { localStorage.removeItem('uzi_session_active'); window.location.href = 'index.html'; }
         
-        // Load data on dashboard
+        // Monitor Load Realtime
         db.ref('home_custom/').on('value', snap => {
             const data = snap.val() || {};
             document.getElementById('edit-home-status').value = data.home_status || '';
@@ -146,32 +146,38 @@
             document.getElementById('edit-name').value = data.name || '';
             document.getElementById('edit-bio').value = data.bio || '';
         });
+
+        // Realtime Status Monitor di Owner (Fix Render HTML)
         db.ref('widgets/').on('value', snap => {
-            const container = document.getElementById('widgets-container');
-            container.innerHTML = '';
+            let htmlContent = '';
             snap.forEach(child => {
                 const w = child.val();
-                container.innerHTML += `<div class="card-dark p-4 rounded-xl"><p class="text-[10px] text-emerald-400 font-bold mb-1">${w.type || 'STATUS'}</p><p class="text-xs text-slate-300">"${w.short_note || w.content || 'Tanpa Ringkasan'}"</p><button onclick="deleteCloudItem('widgets', '${child.key}')" class="text-red-400 text-xs mt-3"><i class="fa-solid fa-trash mr-1"></i> Hapus</button></div>`;
+                htmlContent += `<div class="card-dark p-4 rounded-xl"><p class="text-[10px] text-emerald-400 font-bold mb-1">${w.type || 'STATUS'}</p><p class="text-xs text-slate-300">"${w.short_note || w.content || 'Tanpa Ringkasan'}"</p><button onclick="deleteCloudItem('widgets', '${child.key}')" class="text-red-400 text-xs mt-3"><i class="fa-solid fa-trash mr-1"></i> Hapus</button></div>`;
             });
-        });
-        db.ref('experiences/').on('value', snap => {
-            const container = document.getElementById('experience-list-container');
-            container.innerHTML = '';
-            snap.forEach(child => {
-                const e = child.val();
-                container.innerHTML += `<div class="card-dark p-4 rounded-xl flex justify-between items-center"><h3 class="text-xs font-bold text-white uppercase">${e.title}</h3><button onclick="deleteCloudItem('experiences', '${child.key}')" class="text-red-400 text-xs"><i class="fa-solid fa-trash mr-1"></i> Hapus</button></div>`;
-            });
-        });
-        db.ref('videos/').on('value', snap => {
-            const container = document.getElementById('video-grid-container');
-            container.innerHTML = '';
-            snap.forEach(child => {
-                const v = child.val();
-                container.innerHTML += `<div class="card-dark p-3 rounded-xl flex justify-between items-center"><span class="text-xs font-bold">${v.title}</span><button onclick="deleteCloudItem('videos', '${child.key}')" class="text-red-400"><i class="fa-solid fa-trash"></i></button></div>`;
-            });
+            document.getElementById('widgets-container').innerHTML = htmlContent || '<p class="text-xs text-slate-500">Belum ada aktivitas.</p>';
         });
 
-        // TAMBAHAN: Push functions dengan field lengkap dan Timestamp Date.now()
+        // Realtime Pengalaman Monitor di Owner (Fix Render HTML)
+        db.ref('experiences/').on('value', snap => {
+            let htmlContent = '';
+            snap.forEach(child => {
+                const e = child.val();
+                htmlContent += `<div class="card-dark p-4 rounded-xl flex justify-between items-center"><h3 class="text-xs font-bold text-white uppercase">${e.title}</h3><button onclick="deleteCloudItem('experiences', '${child.key}')" class="text-red-400 text-xs"><i class="fa-solid fa-trash mr-1"></i> Hapus</button></div>`;
+            });
+            document.getElementById('experience-list-container').innerHTML = htmlContent || '<p class="text-xs text-slate-500">Belum ada pengalaman.</p>';
+        });
+
+        // Realtime Video Monitor di Owner (Fix Render HTML)
+        db.ref('videos/').on('value', snap => {
+            let htmlContent = '';
+            snap.forEach(child => {
+                const v = child.val();
+                htmlContent += `<div class="card-dark p-3 rounded-xl flex justify-between items-center"><span class="text-xs font-bold">${v.title}</span><button onclick="deleteCloudItem('videos', '${child.key}')" class="text-red-400"><i class="fa-solid fa-trash"></i></button></div>`;
+            });
+            document.getElementById('video-grid-container').innerHTML = htmlContent || '<p class="text-xs text-slate-500">Belum ada video.</p>';
+        });
+
+        // Functions Data Push
         function pushWidget() { 
             db.ref('widgets/').push({ 
                 type: document.getElementById('widget-type').value, 
