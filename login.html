@@ -12,7 +12,6 @@
 </head>
 <body class="flex items-center justify-center min-h-screen px-4">
 
-    <!-- Container Utama -->
     <div class="bg-[#161f14] p-8 rounded-2xl border border-[#233220] w-full max-w-sm shadow-2xl">
         <div class="text-center mb-8">
             <h2 class="text-white text-xl font-extrabold tracking-wider">OWNER LOGIN</h2>
@@ -52,7 +51,6 @@
                 window.location.href = 'owner.html';
             } else {
                 msg.classList.remove('hidden');
-                // Menggoyang elemen sedikit jika salah (efek visual)
                 document.querySelector('.bg-[#161f14]').classList.add('animate-pulse');
                 setTimeout(() => {
                     document.querySelector('.bg-[#161f14]').classList.remove('animate-pulse');
@@ -60,7 +58,6 @@
             }
         });
 
-        // Tambahkan support tombol "Enter"
         document.addEventListener('keypress', function (e) {
             if (e.key === 'Enter') {
                 document.getElementById('btn-login').click();
