@@ -6,109 +6,54 @@
     <title>Owner Workspace Console</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght=300;400;500;600;700&display=swap');
         body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #0f140d; }
         .card-dark { background-color: #161f14; border: 1px solid #233220; }
-        .active-tab { background-color: #233220; color: #4ade80; border-bottom: 2px solid #4ade80; }
+        .input-dark { background-color: #0b0f09; border: 1px solid #233220; color: white; }
     </style>
 </head>
-<body class="text-slate-200 min-h-screen flex flex-col">
+<body class="text-slate-200 p-6">
 
-    <nav class="bg-[#121910]/90 backdrop-blur-md border-b border-[#233220] px-4 py-4 flex flex-col gap-4 sticky top-0 z-50">
-        <div class="flex justify-between items-center w-full">
-            <span class="font-extrabold text-lg text-emerald-400 tracking-wider">UZIIFAUNAK</span>
-            <button onclick="handleLogout()" class="bg-red-500/10 text-red-400 border border-red-900/40 text-[10px] font-bold px-3 py-1.5 rounded-lg hover:bg-red-500 hover:text-white transition">Logout</button>
+    <div class="max-w-4xl mx-auto">
+        <div class="flex justify-between items-center mb-8">
+            <h1 class="text-2xl font-bold text-emerald-400">Owner Console</h1>
+            <button onclick="window.location.href='index.html'" class="text-xs bg-red-900/20 text-red-400 px-4 py-2 rounded-lg">Logout</button>
         </div>
-        <div class="flex flex-wrap justify-center gap-1.5 bg-[#0b0f09] p-1 rounded-xl border border-[#1d291a] font-medium text-[10px] sm:text-xs">
-            <button onclick="switchTab('home')" id="tab-home" class="px-3 py-2 rounded-lg text-slate-400 hover:text-white transition active-tab">Home Mod</button>
-            <button onclick="switchTab('status')" id="tab-status" class="px-3 py-2 rounded-lg text-slate-400 hover:text-white transition">Status Mod</button>
-            <button onclick="switchTab('pengalaman')" id="tab-pengalaman" class="px-3 py-2 rounded-lg text-slate-400 hover:text-white transition">Exp Mod</button>
-            <button onclick="switchTab('video')" id="tab-video" class="px-3 py-2 rounded-lg text-slate-400 hover:text-white transition">Video Mod</button>
+
+        <div class="card-dark p-6 rounded-2xl mb-6">
+            <h2 class="font-bold mb-4">Edit Profil</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <input id="edit-name" type="text" placeholder="Nama" class="input-dark p-2 rounded-lg text-sm">
+                <input id="edit-bio" type="text" placeholder="Bio" class="input-dark p-2 rounded-lg text-sm">
+                <button onclick="saveProfile()" class="bg-emerald-500 text-neutral-950 font-bold p-2 rounded-lg text-sm">Update Profil</button>
+            </div>
         </div>
-    </nav>
 
-    <main class="max-w-7xl w-full mx-auto px-4 py-8 flex-1">
-        <section id="content-home" class="tab-content">
-            <h1 class="text-lg font-bold text-white mb-2">Home Header Live Monitor</h1>
-            <div id="home-monitor-box" class="card-dark p-4 rounded-xl max-w-md">
-                <p class="text-xs text-emerald-400 font-bold">Status Utama Saat Ini:</p>
-                <p id="live-home-status" class="text-xs text-slate-300 mt-1 italic">Loading...</p>
+        <div class="card-dark p-6 rounded-2xl mb-6">
+            <h2 class="font-bold mb-4">Tambah Widget Status</h2>
+            <div class="grid grid-cols-1 gap-4">
+                <input id="widget-type" type="text" placeholder="Tipe (Contoh: Update)" class="input-dark p-2 rounded-lg text-sm">
+                <textarea id="widget-content" placeholder="Isi konten..." class="input-dark p-2 rounded-lg text-sm h-20"></textarea>
+                <button onclick="pushWidget()" class="bg-blue-600 text-white font-bold p-2 rounded-lg text-sm">Kirim Widget</button>
             </div>
-        </section>
-        <section id="content-status" class="tab-content hidden">
-            <h1 class="text-lg font-bold text-white mb-4">Aktivitas Cloud</h1>
-            <div id="widgets-container" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
-        </section>
-        <section id="content-pengalaman" class="tab-content hidden">
-            <h1 class="text-lg font-bold text-white mb-4">Daftar Pengalaman</h1>
-            <div id="experience-list-container" class="grid grid-cols-1 gap-4"></div>
-        </section>
-        <section id="content-video" class="tab-content hidden">
-            <h1 class="text-lg font-bold text-white mb-4">Video Management</h1>
-            <div id="video-grid-container" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
-        </section>
-    </main>
+        </div>
 
-    <div class="w-full bg-[#11170e] border-t border-[#233220] p-6">
-        <div class="max-w-7xl w-full mx-auto">
-            <div id="sub-console-home" class="sub-console grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div class="card-dark p-4 space-y-2">
-                    <input type="text" id="edit-cnn-text" placeholder="Judul Berita..." class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2 rounded text-white">
-                    <input type="text" id="edit-cnn-link" placeholder="Link..." class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2 rounded text-white">
-                    <button onclick="saveCnnNews()" class="bg-red-600 text-white font-bold text-xs px-4 py-1.5 rounded">Update Berita</button>
-                </div>
-                <div class="card-dark p-4 space-y-2">
-                    <input type="text" id="edit-home-status" placeholder="Status..." class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2 rounded text-white">
-                    <button onclick="saveHomeStatus()" class="bg-amber-500 text-neutral-950 font-bold text-xs px-4 py-1.5 rounded">Update Status</button>
-                </div>
-            </div>
-            
-            <div id="sub-console-status" class="sub-console hidden grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div class="card-dark p-4 space-y-2">
-                    <input type="text" id="edit-name" placeholder="Nama Profil..." class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2 rounded text-white">
-                    <input type="text" id="edit-bio" placeholder="Bio..." class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2 rounded text-white">
-                    <button onclick="saveProfile()" class="bg-emerald-500 text-neutral-950 font-bold text-xs px-4 py-1.5 rounded">Update Profil</button>
-                </div>
-                <div class="card-dark p-4 space-y-2">
-                    <select id="widget-type" class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2 rounded text-slate-300">
-                        <option value="Nota Harian">Nota Harian</option>
-                        <option value="Lagu Online">Lagu Online</option>
-                        <option value="Foto Postingan">Foto Postingan</option>
-                    </select>
-                    <input type="text" id="widget-content" placeholder="Deskripsi..." class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2 rounded text-white">
-                    <input type="text" id="widget-media" placeholder="URL Gambar/Media (Opsional)..." class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2 rounded text-white">
-                    <button onclick="pushWidget()" class="w-full bg-emerald-500 text-neutral-950 font-bold text-xs py-2 rounded">Push Widget</button>
-                </div>
-            </div>
-
-            <div id="sub-console-pengalaman" class="sub-console hidden card-dark p-4 space-y-3">
-                <input type="text" id="exp-title" placeholder="Nama Proyek/Sertifikat" class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2 rounded text-white">
-                <input type="text" id="exp-summary" placeholder="Deskripsi singkat..." class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2 rounded text-white">
-                <input type="text" id="exp-media" placeholder="URL Media (Opsional)..." class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2 rounded text-white">
-                <div class="grid grid-cols-2 gap-2">
-                    <input type="text" id="exp-date" placeholder="Tanggal (misal: Mei 2026)" class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2 rounded text-white">
-                    <input type="text" id="exp-rating" placeholder="Bintang (misal: ⭐⭐⭐⭐⭐)" class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2 rounded text-white">
-                </div>
-                <button onclick="pushExperience()" class="bg-emerald-500 text-neutral-950 font-bold text-xs px-5 py-2 rounded-xl">Inject Exp</button>
-            </div>
-
-            <div id="sub-console-video" class="sub-console hidden card-dark p-4 space-y-2">
-                <input type="text" id="vid-title" placeholder="Judul Video" class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2 rounded text-white">
-                <input type="text" id="vid-url" placeholder="URL Video" class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2 rounded text-white">
-                <select id="vid-privacy" class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2 rounded text-slate-300">
-                    <option value="public">Public</option>
-                    <option value="private">Private</option>
-                </select>
-                <button onclick="pushVideo()" class="bg-emerald-500 text-neutral-950 font-bold text-xs px-4 py-2 rounded">Broadcast</button>
+        <div class="card-dark p-6 rounded-2xl mb-6">
+            <h2 class="font-bold mb-4">Tambah Pengalaman</h2>
+            <div class="grid grid-cols-1 gap-4">
+                <input id="exp-title" type="text" placeholder="Judul Pengalaman" class="input-dark p-2 rounded-lg text-sm">
+                <input id="exp-summary" type="text" placeholder="Summary" class="input-dark p-2 rounded-lg text-sm">
+                <button onclick="pushExperience()" class="bg-emerald-600 text-white font-bold p-2 rounded-lg text-sm">Tambah Pengalaman</button>
             </div>
         </div>
     </div>
 
     <script>
-        if(localStorage.getItem('uzi_session_active') !== 'true') { window.location.href = 'login.html'; }
         const firebaseConfig = {
             apiKey: "AIzaSyDZ7xMFlPZO0BjjHXKVpY3-yaoR-wUAjhk",
             authDomain: "portofolio-uzi.firebaseapp.com",
@@ -116,69 +61,38 @@
             projectId: "portofolio-uzi",
             storageBucket: "portofolio-uzi.firebasestorage.app",
             messagingSenderId: "190552716843",
-            appId: "1:190552716843:web:32d9c26f299867bfc19c6e",
-            measurementId: "G-0ZJTEGNXTW"
+            appId: "1:190552716843:web:32d9c26f299867bfc19c6e"
         };
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
-        const now = new Date().toLocaleDateString('id-ID');
 
-        function switchTab(t) {
-            document.querySelectorAll('.tab-content').forEach(c => c.classList.add('hidden'));
-            document.querySelectorAll('nav button').forEach(b => b.classList.remove('active-tab'));
-            document.getElementById(`content-${t}`).classList.remove('hidden');
-            document.getElementById(`tab-${t}`).classList.add('active-tab');
-            document.querySelectorAll('.sub-console').forEach(sc => sc.classList.add('hidden'));
-            if(document.getElementById(`sub-console-${t}`)) document.getElementById(`sub-console-${t}`).classList.remove('hidden');
+        // Validasi Sesi
+        if (localStorage.getItem('uzi_session_active') !== 'true') {
+            window.location.href = 'login.html';
         }
-        function handleLogout() { localStorage.removeItem('uzi_session_active'); window.location.href = 'index.html'; }
-        
-        function pushExperience() { 
-            db.ref('experiences/').push({ 
-                title: document.getElementById('exp-title').value, 
+
+        function saveProfile() {
+            db.ref('profile/').set({
+                name: document.getElementById('edit-name').value,
+                bio: document.getElementById('edit-bio').value
+            }).then(() => alert('Profil Diperbarui!'));
+        }
+
+        function pushWidget() {
+            db.ref('widgets/').push({
+                type: document.getElementById('widget-type').value,
+                content: document.getElementById('widget-content').value,
+                timestamp: Date.now()
+            }).then(() => alert('Widget Berhasil Ditambah!'));
+        }
+
+        function pushExperience() {
+            db.ref('experiences/').push({
+                title: document.getElementById('exp-title').value,
                 summary: document.getElementById('exp-summary').value,
-                date: document.getElementById('exp-date').value,
-                stars: document.getElementById('exp-rating').value,
-                mediaUrl: document.getElementById('exp-media').value,
-                timestamp: now
-            }); 
-            alert('Pengalaman Disuntikkan!'); 
+                timestamp: Date.now()
+            }).then(() => alert('Pengalaman Berhasil Ditambah!'));
         }
-
-        function saveCnnNews() { db.ref('home_custom/').update({ cnn_text: document.getElementById('edit-cnn-text').value, cnn_link: document.getElementById('edit-cnn-link').value }); alert('Berita Diperbarui!'); }
-        function saveHomeStatus() { db.ref('home_custom/').update({ home_status: document.getElementById('edit-home-status').value }); alert('Status Diperbarui!'); }
-        function saveProfile() { db.ref('profile/').set({ name: document.getElementById('edit-name').value, bio: document.getElementById('edit-bio').value }); alert('Profil Diperbarui!'); }
-        function pushWidget() { db.ref('widgets/').push({ type: document.getElementById('widget-type').value, content: document.getElementById('widget-content').value, mediaUrl: document.getElementById('widget-media').value, timestamp: now }); alert('Aktivitas Terkirim!'); }
-        function pushVideo() { db.ref('videos/').push({ title: document.getElementById('vid-title').value, url: document.getElementById('vid-url').value, privacy: document.getElementById('vid-privacy').value, timestamp: now }); alert('Sinyal Video Online!'); }
-        function deleteCloudItem(path, key) { if(confirm('Hapus item?')) { db.ref(`${path}/${key}`).remove(); } }
-
-        db.ref('home_custom/').on('value', snap => {
-            const data = snap.val() || {};
-            document.getElementById('edit-cnn-text').value = data.cnn_text || '';
-            document.getElementById('edit-cnn-link').value = data.cnn_link || '';
-            document.getElementById('edit-home-status').value = data.home_status || '';
-            document.getElementById('live-home-status').innerText = data.home_status || 'Belum ada status.';
-        });
-
-        db.ref('experiences/').on('value', snap => {
-            const container = document.getElementById('experience-list-container');
-            container.innerHTML = '';
-            snap.forEach(child => {
-                const e = child.val();
-                container.innerHTML += `<div class="card-dark p-4 rounded-xl flex justify-between items-center">
-                    <div>
-                        <h3 class="text-xs font-bold text-white uppercase">${e.title}</h3>
-                        <p class="text-[10px] text-emerald-400">${e.date || ''} | ${e.stars || ''}</p>
-                    </div>
-                    <button onclick="deleteCloudItem('experiences', '${child.key}')" class="text-red-400 text-xs">Hapus</button>
-                </div>`;
-            });
-        });
-
-        db.ref('widgets/').on('value', snap => { const container = document.getElementById('widgets-container'); container.innerHTML = ''; snap.forEach(child => { const w = child.val(); container.innerHTML += `<div class="card-dark p-4 rounded-xl"><p class="text-xs text-slate-300">"${w.content}"</p><button onclick="deleteCloudItem('widgets', '${child.key}')" class="text-red-400 text-xs mt-2">Hapus</button></div>`; }); });
-        db.ref('videos/').on('value', snap => { const container = document.getElementById('video-grid-container'); container.innerHTML = ''; snap.forEach(child => { const v = child.val(); container.innerHTML += `<div class="card-dark p-3 rounded-xl flex justify-between items-center"><span class="text-xs font-bold">${v.title}</span><button onclick="deleteCloudItem('videos', '${child.key}')" class="text-red-400"><i class="fa-solid fa-trash"></i></button></div>`; }); });
-
-        document.addEventListener("DOMContentLoaded", () => { switchTab('home'); });
     </script>
 </body>
 </html>
