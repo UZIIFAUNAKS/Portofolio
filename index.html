@@ -25,19 +25,18 @@
 
     <header class="max-w-4xl mx-auto px-4 py-10 text-center">
         <div class="w-24 h-24 mx-auto bg-emerald-900 rounded-full mb-4 border-2 border-emerald-500 overflow-hidden flex items-center justify-center">
-            <i class="fa-solid fa-user-astronaut text-4xl text-emerald-400"></i>
-        </div>
+    <a href="LINK_TUJUAN_ANDA">
+        <img src="https://cdn.discordapp.com/attachments/1142606456558977024/1506000533188644864/WhatsApp_Image_2026-05-19_at_01.23.21.jpeg?ex=6a0cabcb&is=6a0b5a4b&hm=6bc369302caffa0b6b52f6434dcc2e9faa45b8168c352df6420e1fd3f95b1f37&" alt="Foto Profil" class="w-full h-full object-cover">
+    </a>
+</div>
         <h1 id="profile-name" class="text-2xl font-bold text-white">Memuat...</h1>
         <p id="profile-bio" class="text-sm text-slate-400 mt-2 max-w-lg mx-auto">Memuat...</p>
         
         <div class="flex flex-wrap justify-center items-center gap-6 mt-6">
-            <a href="#" target="_blank" class="text-4xl text-[#5865F2] hover:scale-110 transition drop-shadow-[0_0_8px_rgba(88,101,242,0.5)]"><i class="fa-brands fa-discord"></i></a>
-            <a href="#" target="_blank" class="text-4xl text-[#E1306C] hover:scale-110 transition drop-shadow-[0_0_8px_rgba(225,48,108,0.5)]"><i class="fa-brands fa-instagram"></i></a>
-            <a href="#" target="_blank" class="text-4xl text-[#0077B5] hover:scale-110 transition drop-shadow-[0_0_8px_rgba(0,119,181,0.5)]"><i class="fa-brands fa-linkedin"></i></a>
-            <a href="#" target="_blank" class="text-4xl text-white hover:scale-110 transition drop-shadow-[0_0_8px_rgba(255,255,255,0.5)]"><i class="fa-brands fa-tiktok"></i></a>
-            <a href="#" target="_blank" class="hover:scale-110 transition drop-shadow-[0_0_8px_rgba(0,196,204,0.5)]">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/0/08/Canva_icon_2021.svg" alt="Canva" class="w-9 h-9">
-            </a>
+            <a href="https://discord.gg/97y4p32jWz" target="_blank" class="text-4xl text-[#5865F2] hover:scale-110 transition drop-shadow-[0_0_8px_rgba(88,101,242,0.5)]"><i class="fa-brands fa-discord"></i></a>
+            <a href="https://www.instagram.com/uziifaunak/" target="_blank" class="text-4xl text-[#E1306C] hover:scale-110 transition drop-shadow-[0_0_8px_rgba(225,48,108,0.5)]"><i class="fa-brands fa-instagram"></i></a>
+            <a href="https://www.linkedin.com/in/abhinayafauzi/" target="_blank" class="text-4xl text-[#0077B5] hover:scale-110 transition drop-shadow-[0_0_8px_rgba(0,119,181,0.5)]"><i class="fa-brands fa-linkedin"></i></a>
+            <a href="https://www.tiktok.com/@uziifaunak" target="_blank" class="text-4xl text-white hover:scale-110 transition drop-shadow-[0_0_8px_rgba(255,255,255,0.5)]"><i class="fa-brands fa-tiktok"></i></a>
         </div>
     </header>
 
@@ -78,8 +77,9 @@
         }
 
         function timeAgo(ms) {
-            if(!ms) return '';
+            if(!ms) return 'Baru saja';
             const sec = Math.floor((new Date() - ms) / 1000);
+            if (isNaN(sec) || sec < 0) return 'Baru saja';
             if (sec < 60) return sec + ' detik lalu';
             if (sec < 3600) return Math.floor(sec / 60) + ' menit lalu';
             if (sec < 86400) return Math.floor(sec / 3600) + ' jam lalu';
@@ -93,16 +93,22 @@
             document.getElementById('profile-bio').innerText = data.bio || 'Bio belum diatur.';
         });
 
-        // Real-time Status Update (Fix Multi-spot)
+        // Real-time Status Update (Fix Multi-spot & Anti-Crash)
         db.ref('widgets/').on('value', snap => {
+            let htmlContent = ''; 
             let items = [];
-            snap.forEach(child => items.push(child.val()));
             
-            let htmlContent = ''; // Teknik akumulasi string agar render stabil & tidak terpotong
+            snap.forEach(child => {
+                const val = child.val();
+                // Filter: Hanya ambil data yang berformat Object (Hasil push baru)
+                if (val && typeof val === 'object' && !child.key.match(/^(type|sender|short_note|long_note|file)$/)) {
+                    items.push(val);
+                }
+            });
             
             items.reverse().forEach(w => {
                 let fileHtml = '';
-                if(w.file) {
+                if(w.file && typeof w.file === 'string') {
                     if(w.file.match(/\.(mp4|webm|ogg)$/i)) {
                         fileHtml = `<video src="${w.file}" controls class="w-full mt-3 rounded-lg border border-emerald-900/40"></video>`;
                     } else {
@@ -128,12 +134,18 @@
             document.getElementById('content-status').innerHTML = htmlContent || '<p class="text-slate-500 italic col-span-full text-center">Belum ada pembaruan status.</p>';
         });
 
-        // Real-time Pengalaman Update (Fix Multi-spot)
+        // Real-time Pengalaman Update (Fix Multi-spot & Anti-Crash)
         db.ref('experiences/').on('value', snap => {
-            let items = [];
-            snap.forEach(child => items.push(child.val()));
-            
             let htmlContent = '';
+            let items = [];
+            
+            snap.forEach(child => {
+                const val = child.val();
+                // Filter data sampah lama
+                if (val && typeof val === 'object' && !child.key.match(/^(title|summary|date|stars|img)$/)) {
+                    items.push(val);
+                }
+            });
             
             items.reverse().forEach(e => {
                 let imgHtml = e.img ? `<img src="${e.img}" class="w-full mt-4 rounded-xl border border-emerald-900/50" alt="Sertifikat">` : '';
@@ -159,12 +171,18 @@
             document.getElementById('content-pengalaman').innerHTML = htmlContent || '<p class="text-slate-500 italic col-span-full text-center">Belum ada data pengalaman.</p>';
         });
 
-        // Real-time Video Update (Fix Multi-spot)
+        // Real-time Video Update (Fix Multi-spot & Anti-Crash)
         db.ref('videos/').on('value', snap => {
-            let items = [];
-            snap.forEach(child => items.push(child.val()));
-            
             let htmlContent = '';
+            let items = [];
+            
+            snap.forEach(child => {
+                const val = child.val();
+                // Filter data sampah lama
+                if (val && typeof val === 'object' && !child.key.match(/^(title|url)$/)) {
+                    items.push(val);
+                }
+            });
             
             items.reverse().forEach(v => {
                 htmlContent += `
