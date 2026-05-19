@@ -83,11 +83,33 @@
                     <button onclick="pushWidget()" class="w-full bg-emerald-500 text-neutral-950 font-bold text-xs py-2 rounded">Push Widget</button>
                 </div>
             </div>
-            <div id="sub-console-pengalaman" class="sub-console hidden card-dark p-4 space-y-3">
-                <input type="text" id="exp-title" placeholder="Nama Proyek/Sertifikat" class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2 rounded text-white">
-                <input type="text" id="exp-summary" placeholder="Deskripsi singkat..." class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2 rounded text-white">
-                <button onclick="pushExperience()" class="bg-emerald-500 text-neutral-950 font-bold text-xs px-5 py-2 rounded-xl">Inject Exp</button>
+           <div id="sub-console-pengalaman" class="sub-console hidden card-dark p-4 space-y-3 max-w-2xl">
+
+                <span class="text-[10px] font-bold text-emerald-400 uppercase block">Tambah Pengalaman & Sertifikat</span>
+
+                <div class="grid grid-cols-2 gap-3">
+
+                    <input type="text" id="exp-title" placeholder="Nama Sertifikasi / Judul Proyek" class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2 rounded text-white">
+
+                    <input type="text" id="exp-media-url" placeholder="Direct Link File Gambar" class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2 rounded text-white">
+
+                </div>
+
+                <input type="text" id="exp-summary" placeholder="Deskripsi penjelasan singkat..." class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2 rounded text-white">
+
+                <div class="grid grid-cols-2 gap-3">
+
+                    <input type="text" id="exp-date-string" placeholder="Contoh: Mei 2026" class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2 rounded text-white">
+
+                    <input type="text" id="exp-rating" placeholder="Contoh: ⭐⭐⭐⭐⭐ (5 Bintang)" class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2 rounded text-white">
+
+                </div>
+
+                <button onclick="pushExperience()" class="bg-emerald-500 text-neutral-950 font-bold text-xs px-5 py-2 rounded-xl">Inject Exp Mod</button>
+
             </div>
+
+
             <div id="sub-console-video" class="sub-console hidden card-dark p-4 space-y-2">
                 <input type="text" id="vid-title" placeholder="Judul Video" class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2 rounded text-white">
                 <input type="text" id="vid-url" placeholder="URL Video" class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2 rounded text-white">
