@@ -67,6 +67,7 @@
                     <button onclick="saveHomeStatus()" class="bg-amber-500 text-neutral-950 font-bold text-xs px-4 py-1.5 rounded">Update Status</button>
                 </div>
             </div>
+            
             <div id="sub-console-status" class="sub-console hidden grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div class="card-dark p-4 space-y-2">
                     <input type="text" id="edit-name" placeholder="Nama Profil..." class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2 rounded text-white">
@@ -80,14 +81,20 @@
                         <option value="Foto Postingan">Foto Postingan</option>
                     </select>
                     <input type="text" id="widget-content" placeholder="Deskripsi..." class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2 rounded text-white">
+                    <input type="text" id="widget-img" placeholder="URL Gambar..." class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2 rounded text-white">
                     <button onclick="pushWidget()" class="w-full bg-emerald-500 text-neutral-950 font-bold text-xs py-2 rounded">Push Widget</button>
                 </div>
             </div>
+
             <div id="sub-console-pengalaman" class="sub-console hidden card-dark p-4 space-y-3">
                 <input type="text" id="exp-title" placeholder="Nama Proyek/Sertifikat" class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2 rounded text-white">
                 <input type="text" id="exp-summary" placeholder="Deskripsi singkat..." class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2 rounded text-white">
+                <input type="text" id="exp-start" placeholder="Tanggal Mulai" class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2 rounded text-white">
+                <input type="text" id="exp-end" placeholder="Tanggal Selesai" class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2 rounded text-white">
+                <input type="text" id="exp-img" placeholder="Link Foto Sertifikat..." class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2 rounded text-white">
                 <button onclick="pushExperience()" class="bg-emerald-500 text-neutral-950 font-bold text-xs px-5 py-2 rounded-xl">Inject Exp</button>
             </div>
+
             <div id="sub-console-video" class="sub-console hidden card-dark p-4 space-y-2">
                 <input type="text" id="vid-title" placeholder="Judul Video" class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2 rounded text-white">
                 <input type="text" id="vid-url" placeholder="URL Video" class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2 rounded text-white">
@@ -119,49 +126,33 @@
             if(document.getElementById(`sub-console-${t}`)) document.getElementById(`sub-console-${t}`).classList.remove('hidden');
         }
         function handleLogout() { localStorage.removeItem('uzi_session_active'); window.location.href = 'index.html'; }
-        db.ref('home_custom/').on('value', snap => {
-            const data = snap.val() || {};
-            document.getElementById('edit-cnn-text').value = data.cnn_text || '';
-            document.getElementById('edit-cnn-link').value = data.cnn_link || '';
-            document.getElementById('edit-home-status').value = data.home_status || '';
-            document.getElementById('live-home-status').innerText = data.home_status || 'Belum ada status.';
-        });
-        db.ref('profile/').on('value', snap => {
-            const data = snap.val() || {};
-            document.getElementById('edit-name').value = data.name || '';
-            document.getElementById('edit-bio').value = data.bio || '';
-        });
-        db.ref('widgets/').on('value', snap => {
-            const container = document.getElementById('widgets-container');
-            container.innerHTML = '';
-            snap.forEach(child => {
-                const w = child.val();
-                container.innerHTML += `<div class="card-dark p-4 rounded-xl"><p class="text-xs text-slate-300">"${w.content}"</p><button onclick="deleteCloudItem('widgets', '${child.key}')" class="text-red-400 text-xs mt-2">Hapus</button></div>`;
-            });
-        });
-        db.ref('experiences/').on('value', snap => {
-            const container = document.getElementById('experience-list-container');
-            container.innerHTML = '';
-            snap.forEach(child => {
-                const e = child.val();
-                container.innerHTML += `<div class="card-dark p-4 rounded-xl flex justify-between items-center"><h3 class="text-xs font-bold text-white uppercase">${e.title}</h3><button onclick="deleteCloudItem('experiences', '${child.key}')" class="text-red-400 text-xs">Hapus</button></div>`;
-            });
-        });
-        db.ref('videos/').on('value', snap => {
-            const container = document.getElementById('video-grid-container');
-            container.innerHTML = '';
-            snap.forEach(child => {
-                const v = child.val();
-                container.innerHTML += `<div class="card-dark p-3 rounded-xl flex justify-between items-center"><span class="text-xs font-bold">${v.title}</span><button onclick="deleteCloudItem('videos', '${child.key}')" class="text-red-400"><i class="fa-solid fa-trash"></i></button></div>`;
-            });
-        });
+        
+        // Functions with updated fields
+        function pushWidget() { 
+            db.ref('widgets/').push({ 
+                type: document.getElementById('widget-type').value, 
+                content: document.getElementById('widget-content').value, 
+                img: document.getElementById('widget-img').value, 
+                timestamp: Date.now() 
+            }); alert('Aktivitas Terkirim!'); 
+        }
+        function pushExperience() { 
+            db.ref('experiences/').push({ 
+                title: document.getElementById('exp-title').value, 
+                summary: document.getElementById('exp-summary').value,
+                start: document.getElementById('exp-start').value,
+                end: document.getElementById('exp-end').value,
+                img: document.getElementById('exp-img').value
+            }); alert('Pengalaman Disuntikkan!'); 
+        }
+        
+        // Other functions remain the same as your request
         function saveCnnNews() { db.ref('home_custom/').update({ cnn_text: document.getElementById('edit-cnn-text').value, cnn_link: document.getElementById('edit-cnn-link').value }); alert('Berita Diperbarui!'); }
         function saveHomeStatus() { db.ref('home_custom/').update({ home_status: document.getElementById('edit-home-status').value }); alert('Status Diperbarui!'); }
         function saveProfile() { db.ref('profile/').set({ name: document.getElementById('edit-name').value, bio: document.getElementById('edit-bio').value }); alert('Profil Diperbarui!'); }
-        function pushWidget() { db.ref('widgets/').push({ type: document.getElementById('widget-type').value, content: document.getElementById('widget-content').value, timestamp: Date.now() }); alert('Aktivitas Terkirim!'); }
-        function pushExperience() { db.ref('experiences/').push({ title: document.getElementById('exp-title').value, summary: document.getElementById('exp-summary').value }); alert('Pengalaman Disuntikkan!'); }
         function pushVideo() { db.ref('videos/').push({ title: document.getElementById('vid-title').value, url: document.getElementById('vid-url').value }); alert('Sinyal Video Online!'); }
         function deleteCloudItem(path, key) { if(confirm('Hapus item?')) { db.ref(`${path}/${key}`).remove(); } }
+        
         document.addEventListener("DOMContentLoaded", () => { switchTab('home'); });
     </script>
 </body>
