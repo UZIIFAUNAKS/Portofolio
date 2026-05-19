@@ -18,18 +18,20 @@
             <p class="text-slate-500 text-xs mt-1">Autentikasi akses sistem portofolio</p>
         </div>
         
-        <div id="msg" class="hidden bg-red-950/30 border border-red-900/50 text-red-400 text-[11px] text-center mb-4 py-2 rounded-lg font-bold">
-            KREDENSIAL TIDAK VALID!
+        <div id="msg" class="hidden bg-red-950/30 border border-red-900/50 text-red-400 text-[10px] p-3 rounded-lg mb-4 text-center">
+            Kredensial salah! Akses ditolak.
         </div>
 
-        <form id="form-login" class="space-y-4">
+        <form onsubmit="return false;" class="space-y-4">
             <div>
-                <input type="text" id="user" placeholder="USER ID" class="w-full p-3 bg-[#0b0f09] text-white rounded-xl border border-[#233220] focus:border-emerald-500/50 outline-none transition text-sm">
+                <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Username</label>
+                <input type="text" id="user" class="w-full bg-[#0b0f09] border border-[#233220] rounded-lg p-2.5 text-white text-sm outline-none focus:border-emerald-500 transition">
             </div>
             <div>
-                <input type="password" id="pass" placeholder="PASSWORD" class="w-full p-3 bg-[#0b0f09] text-white rounded-xl border border-[#233220] focus:border-emerald-500/50 outline-none transition text-sm">
+                <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Password</label>
+                <input type="password" id="pass" class="w-full bg-[#0b0f09] border border-[#233220] rounded-lg p-2.5 text-white text-sm outline-none focus:border-emerald-500 transition">
             </div>
-            <button type="button" id="btn-login" class="w-full bg-emerald-500 hover:bg-emerald-400 py-3 rounded-xl font-bold text-neutral-950 text-xs transition-all duration-200 mt-2">
+            <button id="btn-login" class="w-full bg-emerald-500 hover:bg-emerald-400 text-neutral-950 text-xs font-bold py-3 rounded-lg transition mt-2">
                 AUTENTIKASI MASUK
             </button>
         </form>
@@ -51,6 +53,7 @@
                 window.location.href = 'owner.html';
             } else {
                 msg.classList.remove('hidden');
+                // Efek visual jika salah
                 document.querySelector('.bg-[#161f14]').classList.add('animate-pulse');
                 setTimeout(() => {
                     document.querySelector('.bg-[#161f14]').classList.remove('animate-pulse');
@@ -58,6 +61,7 @@
             }
         });
 
+        // Dukungan tekan Enter
         document.addEventListener('keypress', function (e) {
             if (e.key === 'Enter') {
                 document.getElementById('btn-login').click();
