@@ -43,22 +43,15 @@
                 <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center pt-4">
                     <div class="lg:col-span-7 space-y-6">
                         <span class="text-xs font-bold uppercase tracking-widest text-emerald-400 bg-emerald-950/60 border border-emerald-900/60 px-3 py-1 rounded-md">Portofolio ABHINAYA FAUZI</span>
-                        <h1 class="text-4xl lg:text-5xl font-extrabold tracking-tight text-white leading-tight">Welcome to My Workspace,<br><span class="text-emerald-400">glad to have you here!</span></h1>
-                        <p class="text-sm text-slate-400 max-w-xl leading-relaxed">Terimakasih sudah mengunjungi website ini. Silakan untuk menjelajahi seluruh portofolio dan proyek sistem digital yang sudah saya buat.</p>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
-                            <div class="card-dark p-4 rounded-xl flex items-start gap-3">
-                                <div class="text-red-500 text-lg pt-0.5"><i class="fa-solid fa-newspaper"></i></div>
-                                <div>
-                                    <span class="text-[10px] font-bold text-red-400 uppercase tracking-wider block">CNN News Update</span>
-                                    <a id="home-cnn-link" href="#" target="_blank" class="text-xs text-slate-200 hover:text-emerald-400 font-semibold line-clamp-2 mt-1 transition">Loading...</a>
-                                </div>
+                        <h1 class="text-4xl lg:text-5xl font-extrabold tracking-tight text-white leading-tight">Welcome to My Workspace</h1>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="card-dark p-4 rounded-xl">
+                                <span class="text-[10px] font-bold text-red-400 uppercase">CNN News Update</span>
+                                <a id="home-cnn-link" href="#" target="_blank" class="block text-xs mt-1">Loading...</a>
                             </div>
-                            <div class="card-dark p-4 rounded-xl flex items-start gap-3">
-                                <div class="text-amber-400 text-lg pt-0.5"><i class="fa-solid fa-circle-dot animate-pulse"></i></div>
-                                <div>
-                                    <span class="text-[10px] font-bold text-amber-400 uppercase tracking-wider block">Current Status</span>
-                                    <p id="home-status-text" class="text-xs text-slate-300 mt-1 font-medium">Loading...</p>
-                                </div>
+                            <div class="card-dark p-4 rounded-xl">
+                                <span class="text-[10px] font-bold text-amber-400 uppercase">Current Status</span>
+                                <p id="home-status-text" class="text-xs mt-1">Loading...</p>
                             </div>
                         </div>
                     </div>
@@ -66,11 +59,17 @@
             </section>
 
             <section id="content-status" class="tab-content hidden">
-                <div id="widgets-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+                <div class="card-dark p-6 rounded-2xl mb-8 flex items-center gap-4">
+                    <div class="w-16 h-16 rounded-full bg-emerald-900 border-2 border-emerald-400"></div>
+                    <div>
+                        <h2 id="status-name" class="text-xl font-bold text-white">Loading...</h2>
+                        <p id="status-bio" class="text-sm text-slate-400">Loading...</p>
+                    </div>
+                </div>
+                <div id="widgets-container" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
             </section>
 
             <section id="content-pengalaman" class="tab-content hidden">
-                <h1 class="text-3xl font-bold text-white mb-6">Experience & Certificates</h1>
                 <div class="grid grid-cols-1 gap-6" id="experience-list-container"></div>
             </section>
 
@@ -79,10 +78,6 @@
             </section>
         </main>
     </div>
-
-    <footer class="w-full border-t border-[#1d291a] bg-[#0b0f09] py-6 px-6 mt-12 text-center text-slate-500 text-xs">
-        © 2026 UZIIFAUNAK. All rights reserved.
-    </footer>
 
     <script>
         const firebaseConfig = {
@@ -102,7 +97,7 @@
             const [d, m, y] = dateString.split('/');
             const date = new Date(y, m - 1, d);
             const now = new Date();
-            const diff = Math.floor((now - date) / (1000 * 60)); 
+            const diff = Math.floor((now - date) / (1000 * 60));
             if (diff < 1) return "Baru saja";
             if (diff < 60) return diff + " menit yang lalu";
             if (diff < 1440) return Math.floor(diff / 60) + " jam yang lalu";
@@ -116,6 +111,12 @@
             document.getElementById(`tab-${t}`).classList.add('active-tab');
         }
 
+        db.ref('profile/').on('value', snap => {
+            const p = snap.val() || {};
+            document.getElementById('status-name').innerText = p.name || 'UZI ABHINAYA';
+            document.getElementById('status-bio').innerText = p.bio || 'Digital Creator';
+        });
+
         db.ref('home_custom/').on('value', snap => {
             const data = snap.val() || {};
             document.getElementById('home-cnn-link').innerText = data.cnn_text || "Kunjungi Berita";
@@ -128,13 +129,10 @@
             container.innerHTML = '';
             snap.forEach(child => {
                 const w = child.val();
-                container.innerHTML += `<div class="card-dark p-5 rounded-2xl shadow-xl">
-                    <div class="flex justify-between mb-2">
-                        <span class="text-[10px] text-emerald-400 font-bold uppercase">${w.type}</span>
-                        <span class="text-[9px] text-slate-500">${timeAgo(w.timestamp)}</span>
-                    </div>
-                    <p class="text-xs text-slate-300">"${w.content}"</p>
-                    ${w.mediaUrl ? `<img src="${w.mediaUrl}" class="mt-3 rounded-lg w-full">` : ''}
+                container.innerHTML += `<div class="card-dark p-5 rounded-2xl">
+                    <span class="text-[10px] text-emerald-400 font-bold">${w.type}</span>
+                    <p class="text-xs text-slate-300 mt-2">"${w.content}"</p>
+                    <span class="text-[9px] text-slate-500 block mt-2">${timeAgo(w.timestamp)}</span>
                 </div>`;
             });
         });
@@ -147,7 +145,7 @@
                 container.innerHTML += `<div class="card-dark p-6 rounded-2xl">
                     <h3 class="font-bold text-white">${e.title}</h3>
                     <p class="text-xs text-slate-400 mt-2">${e.summary}</p>
-                    <span class="text-[10px] text-emerald-600 font-bold block mt-3">Diterbitkan: ${timeAgo(e.timestamp)}</span>
+                    <span class="text-[10px] text-emerald-600 font-bold mt-3 block">${timeAgo(e.timestamp)}</span>
                 </div>`;
             });
         });
@@ -157,12 +155,13 @@
             container.innerHTML = '';
             snap.forEach(child => {
                 const v = child.val();
-                if(v.privacy !== 'public') return;
-                container.innerHTML += `<div class="card-dark rounded-xl p-2">
-                    <video src="${v.url}" controls class="w-full rounded"></video>
-                    <p class="text-xs font-bold mt-2">${v.title}</p>
-                    <span class="text-[9px] text-emerald-600">Update: ${timeAgo(v.timestamp)}</span>
-                </div>`;
+                if(v.privacy === 'public') {
+                    container.innerHTML += `<div class="card-dark rounded-xl p-2">
+                        <video src="${v.url}" controls class="w-full rounded"></video>
+                        <p class="text-xs font-bold mt-2">${v.title}</p>
+                        <span class="text-[9px] text-emerald-600">${timeAgo(v.timestamp)}</span>
+                    </div>`;
+                }
             });
         });
     </script>
