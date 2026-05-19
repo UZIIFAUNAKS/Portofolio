@@ -39,7 +39,6 @@
 
     <div class="w-full bg-[#11170e] border-t border-[#233220] p-6">
         <div class="max-w-7xl w-full mx-auto">
-            <!-- Home Sub -->
             <div id="sub-console-home" class="sub-console grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div class="card-dark p-4 space-y-2">
                     <input type="text" id="edit-cnn-text" placeholder="Judul Berita..." class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2 rounded text-white">
@@ -52,7 +51,6 @@
                 </div>
             </div>
             
-            <!-- Status Sub (LENGKAP: Jenis, Keterangan, File Media) -->
             <div id="sub-console-status" class="sub-console hidden grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div class="card-dark p-4 space-y-2">
                     <input type="text" id="edit-name" placeholder="Nama Profil..." class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2 rounded text-white">
@@ -72,7 +70,6 @@
                 </div>
             </div>
 
-            <!-- Experience Sub (LENGKAP) -->
             <div id="sub-console-pengalaman" class="sub-console hidden card-dark p-4 space-y-3 max-w-2xl">
                 <span class="text-[10px] font-bold text-emerald-400 uppercase block">Tambah Pengalaman & Sertifikat</span>
                 <div class="grid grid-cols-2 gap-3">
@@ -87,7 +84,6 @@
                 <button onclick="pushExperience()" class="bg-emerald-500 text-neutral-950 font-bold text-xs px-5 py-2 rounded-xl">Inject Exp Mod</button>
             </div>
 
-            <!-- Video Sub -->
             <div id="sub-console-video" class="sub-console hidden card-dark p-4 space-y-2 max-w-xl">
                 <input type="text" id="vid-title" placeholder="Judul Video" class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2 rounded text-white">
                 <input type="text" id="vid-url" placeholder="Direct URL Video (.mp4)" class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2 rounded text-white">
@@ -125,16 +121,16 @@
         }
         function handleLogout() { localStorage.removeItem('uzi_session_active'); window.location.href = 'index.html'; }
         
-        // FUNGSI PUSH LENGKAP
+        // FUNGSI PUSH DENGAN TIMESTAMP OTOMATIS
         function pushWidget() {
             db.ref('widgets/').push({
                 type: document.getElementById('widget-type').value,
                 sub: document.getElementById('widget-sub').value,
                 content: document.getElementById('widget-content').value,
                 mediaUrl: document.getElementById('widget-media-url').value,
-                timestamp: Date.now()
+                timestamp: new Date().toLocaleString('id-ID')
             });
-            alert('Aktivitas Terkirim!');
+            alert('Aktivitas Terkirim dengan Timestamp!');
         }
         function pushExperience() {
             db.ref('experiences/').push({
@@ -142,17 +138,19 @@
                 mediaUrl: document.getElementById('exp-media-url').value,
                 summary: document.getElementById('exp-summary').value,
                 date: document.getElementById('exp-date-string').value,
-                stars: document.getElementById('exp-rating').value
+                stars: document.getElementById('exp-rating').value,
+                timestamp: new Date().toLocaleString('id-ID')
             });
-            alert('Pengalaman Disuntikkan!');
+            alert('Pengalaman Disuntikkan dengan Timestamp!');
         }
         function pushVideo() {
             db.ref('videos/').push({ 
                 title: document.getElementById('vid-title').value, 
                 url: document.getElementById('vid-url').value, 
-                privacy: document.getElementById('vid-privacy').value 
+                privacy: document.getElementById('vid-privacy').value,
+                timestamp: new Date().toLocaleString('id-ID')
             });
-            alert('Sinyal Video Online!');
+            alert('Sinyal Video Online dengan Timestamp!');
         }
         
         function saveCnnNews() { db.ref('home_custom/').update({ cnn_text: document.getElementById('edit-cnn-text').value, cnn_link: document.getElementById('edit-cnn-link').value }); alert('Berita Diperbarui!'); }
