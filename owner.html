@@ -11,116 +11,106 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght=300;400;500;600;700&display=swap');
         body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #0f140d; }
         .card-dark { background-color: #161f14; border: 1px solid #233220; }
         .active-tab { background-color: #233220; color: #4ade80; border-bottom: 2px solid #4ade80; }
-        .input-dark { width: 100%; background-color: #0b0f09; border: 1px solid #065f46; color: white; padding: 10px; border-radius: 8px; font-size: 12px; margin-bottom: 12px; outline: none; }
-        .input-dark:focus { border-color: #34d399; }
     </style>
 </head>
 <body class="text-slate-200 min-h-screen flex flex-col">
 
     <nav class="bg-[#121910]/90 backdrop-blur-md border-b border-[#233220] px-4 py-4 flex flex-col gap-4 sticky top-0 z-50">
-        <div class="flex justify-between items-center w-full max-w-7xl mx-auto">
-            <span class="font-extrabold text-lg text-emerald-400 tracking-wider"><i class="fa-solid fa-terminal mr-2"></i>OWNER CONSOLE</span>
-            <button onclick="handleLogout()" class="bg-red-500/10 text-red-400 border border-red-900/40 text-[10px] font-bold px-3 py-1.5 rounded-lg hover:bg-red-500 hover:text-white transition">Logout System</button>
+        <div class="flex justify-between items-center w-full">
+            <span class="font-extrabold text-lg text-emerald-400 tracking-wider">UZIIFAUNAK</span>
+            <button onclick="handleLogout()" class="bg-red-500/10 text-red-400 border border-red-900/40 text-[10px] font-bold px-3 py-1.5 rounded-lg hover:bg-red-500 hover:text-white transition">Logout</button>
         </div>
-        <div class="flex flex-wrap justify-center gap-2 bg-[#0b0f09] p-1.5 rounded-xl border border-[#1d291a] font-medium text-[11px] sm:text-xs max-w-2xl mx-auto">
-            <button onclick="switchTab('status')" id="tab-status" class="px-4 py-2 rounded-lg text-slate-400 hover:text-white transition active-tab">Input Status Baru</button>
-            <button onclick="switchTab('pengalaman')" id="tab-pengalaman" class="px-4 py-2 rounded-lg text-slate-400 hover:text-white transition">Input Pengalaman</button>
-            <button onclick="switchTab('video')" id="tab-video" class="px-4 py-2 rounded-lg text-slate-400 hover:text-white transition">Input Video</button>
-            <button onclick="switchTab('manage')" id="tab-manage" class="px-4 py-2 rounded-lg text-slate-400 hover:text-white transition bg-red-950/20 text-red-300">Hapus Data</button>
+        <div class="flex flex-wrap justify-center gap-1.5 bg-[#0b0f09] p-1 rounded-xl border border-[#1d291a] font-medium text-[10px] sm:text-xs">
+            <button onclick="switchTab('home')" id="tab-home" class="px-3 py-2 rounded-lg text-slate-400 hover:text-white transition active-tab">Home Mod</button>
+            <button onclick="switchTab('status')" id="tab-status" class="px-3 py-2 rounded-lg text-slate-400 hover:text-white transition">Status Mod</button>
+            <button onclick="switchTab('pengalaman')" id="tab-pengalaman" class="px-3 py-2 rounded-lg text-slate-400 hover:text-white transition">Exp Mod</button>
+            <button onclick="switchTab('video')" id="tab-video" class="px-3 py-2 rounded-lg text-slate-400 hover:text-white transition">Video Mod</button>
         </div>
     </nav>
 
-    <main class="max-w-5xl w-full mx-auto px-4 py-8 flex-1">
-        
-        <section id="content-status" class="tab-content">
-            <div class="card-dark p-6 rounded-2xl max-w-2xl mx-auto shadow-2xl">
-                <h1 class="text-xl font-bold text-white mb-6 border-b border-[#233220] pb-3"><i class="fa-solid fa-pen-nib mr-2 text-emerald-500"></i>Upload Status / Catatan Harian</h1>
-                
-                <input type="text" id="widget-type" placeholder="Jenis (Contoh: NOTA HARIAN, MUSIC, TREND...)" class="input-dark font-bold text-emerald-400">
-                <input type="text" id="widget-sender" placeholder="Nama Pengirim" class="input-dark">
-                <input type="text" id="widget-short" placeholder="Catatan Singkat / Judul" class="input-dark">
-                <textarea id="widget-long" placeholder="Catatan Panjang / Deskripsi lengkap..." class="input-dark h-28 resize-none"></textarea>
-                <input type="text" id="widget-media" placeholder="Link File Gambar atau Video (URL.jpg / URL.mp4) opsional..." class="input-dark">
-                
-                <button onclick="pushWidget()" class="w-full bg-emerald-500 hover:bg-emerald-400 text-neutral-950 font-extrabold text-sm py-3 rounded-xl transition shadow-lg shadow-emerald-900/20">
-                    <i class="fa-solid fa-paper-plane mr-2"></i>POSTING STATUS
-                </button>
+    <main class="max-w-7xl w-full mx-auto px-4 py-8 flex-1">
+        <section id="content-home" class="tab-content">
+            <h1 class="text-lg font-bold text-white mb-2">Home Header Live Monitor</h1>
+            <div id="home-monitor-box" class="card-dark p-4 rounded-xl max-w-md">
+                <p class="text-xs text-emerald-400 font-bold">Status Utama Saat Ini:</p>
+                <p id="live-home-status" class="text-xs text-slate-300 mt-1 italic">Loading...</p>
             </div>
         </section>
-
+        <section id="content-status" class="tab-content hidden">
+            <h1 class="text-lg font-bold text-white mb-4">Aktivitas Cloud</h1>
+            <div id="widgets-container" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
+        </section>
         <section id="content-pengalaman" class="tab-content hidden">
-            <div class="card-dark p-6 rounded-2xl max-w-2xl mx-auto shadow-2xl">
-                <h1 class="text-xl font-bold text-white mb-6 border-b border-[#233220] pb-3"><i class="fa-solid fa-medal mr-2 text-emerald-500"></i>Upload Pengalaman & Sertifikat</h1>
-                
-                <input type="text" id="exp-title" placeholder="Judul Pengalaman / Nama Sertifikat" class="input-dark font-bold">
-                <textarea id="exp-summary" placeholder="Ringkasan pengalaman..." class="input-dark h-24 resize-none"></textarea>
-                
-                <div class="grid grid-cols-2 gap-4">
-                    <input type="text" id="exp-start" placeholder="Tgl Mulai (ex: Jan 2024)" class="input-dark">
-                    <input type="text" id="exp-end" placeholder="Tgl Selesai (ex: Mar 2026)" class="input-dark">
-                </div>
-                
-                <div class="grid grid-cols-4 gap-4">
-                    <select id="exp-stars" class="input-dark col-span-1 cursor-pointer">
-                        <option value="1">1 Bintang</option>
-                        <option value="2">2 Bintang</option>
-                        <option value="3">3 Bintang</option>
-                        <option value="4">4 Bintang</option>
-                        <option value="5" selected>5 Bintang</option>
-                    </select>
-                    <input type="text" id="exp-img" placeholder="Link Foto Sertifikat (URL)..." class="input-dark col-span-3">
-                </div>
-
-                <button onclick="pushExperience()" class="w-full bg-emerald-500 hover:bg-emerald-400 text-neutral-950 font-extrabold text-sm py-3 rounded-xl transition shadow-lg shadow-emerald-900/20">
-                    <i class="fa-solid fa-upload mr-2"></i>UPLOAD PENGALAMAN
-                </button>
-            </div>
+            <h1 class="text-lg font-bold text-white mb-4">Daftar Pengalaman</h1>
+            <div id="experience-list-container" class="grid grid-cols-1 gap-4"></div>
         </section>
-
         <section id="content-video" class="tab-content hidden">
-            <div class="card-dark p-6 rounded-2xl max-w-xl mx-auto shadow-2xl">
-                <h1 class="text-xl font-bold text-white mb-6 border-b border-[#233220] pb-3"><i class="fa-solid fa-video mr-2 text-emerald-500"></i>Upload Video Random</h1>
-                
-                <input type="text" id="vid-title" placeholder="Judul Video" class="input-dark font-bold">
-                <input type="text" id="vid-url" placeholder="Link URL Video (.mp4)" class="input-dark">
-                
-                <button onclick="pushVideo()" class="w-full bg-emerald-500 hover:bg-emerald-400 text-neutral-950 font-extrabold text-sm py-3 rounded-xl transition shadow-lg shadow-emerald-900/20">
-                    <i class="fa-solid fa-broadcast-tower mr-2"></i>BROADCAST VIDEO
-                </button>
-            </div>
-        </section>
-
-        <section id="content-manage" class="tab-content hidden">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                
-                <div class="card-dark p-4 rounded-xl">
-                    <h2 class="text-sm font-bold text-emerald-400 mb-4 uppercase">List Status</h2>
-                    <div id="manage-widgets" class="space-y-3 max-h-96 overflow-y-auto pr-2"></div>
-                </div>
-
-                <div class="card-dark p-4 rounded-xl">
-                    <h2 class="text-sm font-bold text-emerald-400 mb-4 uppercase">List Pengalaman</h2>
-                    <div id="manage-experiences" class="space-y-3 max-h-96 overflow-y-auto pr-2"></div>
-                </div>
-
-                <div class="card-dark p-4 rounded-xl">
-                    <h2 class="text-sm font-bold text-emerald-400 mb-4 uppercase">List Video</h2>
-                    <div id="manage-videos" class="space-y-3 max-h-96 overflow-y-auto pr-2"></div>
-                </div>
-
-            </div>
+            <h1 class="text-lg font-bold text-white mb-4">Video Management</h1>
+            <div id="video-grid-container" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
         </section>
     </main>
 
+    <div class="w-full bg-[#11170e] border-t border-[#233220] p-6">
+        <div class="max-w-7xl w-full mx-auto">
+            
+            <div id="sub-console-home" class="sub-console grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="card-dark p-4 space-y-2">
+                    <input type="text" id="edit-name" placeholder="Nama Profil..." class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2 rounded text-white">
+                    <input type="text" id="edit-bio" placeholder="Bio Profil..." class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2 rounded text-white">
+                    <button onclick="saveProfile()" class="bg-emerald-500 text-neutral-950 font-bold text-xs px-4 py-1.5 rounded">Update Profil</button>
+                </div>
+                <div class="card-dark p-4 space-y-2">
+                    <input type="text" id="edit-home-status" placeholder="Status Monitor..." class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2 rounded text-white">
+                    <button onclick="saveHomeStatus()" class="bg-amber-500 text-neutral-950 font-bold text-xs px-4 py-1.5 rounded">Update Status Live</button>
+                </div>
+            </div>
+            
+            <div id="sub-console-status" class="sub-console hidden grid grid-cols-1 gap-4">
+                <div class="card-dark p-5 space-y-3 rounded-xl max-w-2xl mx-auto w-full">
+                    <h2 class="text-emerald-400 font-bold text-sm mb-2 border-b border-emerald-900 pb-2">Buat Postingan Status Baru</h2>
+                    <div class="grid grid-cols-2 gap-3">
+                        <input type="text" id="widget-type" placeholder="Jenis (Nota/Music/Trend/dll)..." class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2.5 rounded text-white focus:outline-none focus:border-emerald-400 transition">
+                        <input type="text" id="widget-sender" placeholder="Nama Pengirim..." class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2.5 rounded text-white focus:outline-none focus:border-emerald-400 transition">
+                    </div>
+                    <input type="text" id="widget-short" placeholder="Catatan Singkat (Judul)..." class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2.5 rounded text-white focus:outline-none focus:border-emerald-400 transition">
+                    <textarea id="widget-long" placeholder="Catatan Panjang..." rows="3" class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2.5 rounded text-white focus:outline-none focus:border-emerald-400 transition"></textarea>
+                    <input type="text" id="widget-file" placeholder="Link URL File Gambar atau Video..." class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2.5 rounded text-white focus:outline-none focus:border-emerald-400 transition">
+                    
+                    <button onclick="pushWidget()" class="w-full bg-emerald-500 hover:bg-emerald-400 text-neutral-950 font-bold text-xs py-2.5 rounded-lg transition mt-2">Posting ke Status</button>
+                </div>
+            </div>
+
+            <div id="sub-console-pengalaman" class="sub-console hidden grid grid-cols-1 gap-4">
+                <div class="card-dark p-5 space-y-3 rounded-xl max-w-2xl mx-auto w-full">
+                    <h2 class="text-emerald-400 font-bold text-sm mb-2 border-b border-emerald-900 pb-2">Tambah Data Pengalaman</h2>
+                    <input type="text" id="exp-title" placeholder="Judul Proyek / Sertifikat..." class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2.5 rounded text-white focus:outline-none focus:border-emerald-400 transition">
+                    <textarea id="exp-summary" placeholder="Ringkasan atau Deskripsi..." rows="2" class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2.5 rounded text-white focus:outline-none focus:border-emerald-400 transition"></textarea>
+                    
+                    <div class="grid grid-cols-2 gap-3">
+                        <input type="text" id="exp-date" placeholder="Tanggal Mulai - Selesai..." class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2.5 rounded text-white focus:outline-none focus:border-emerald-400 transition">
+                        <input type="number" id="exp-stars" placeholder="Jumlah Bintang (1-5)..." min="1" max="5" class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2.5 rounded text-white focus:outline-none focus:border-emerald-400 transition">
+                    </div>
+                    
+                    <input type="text" id="exp-img" placeholder="Link Foto / Upload Sertifikat..." class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2.5 rounded text-white focus:outline-none focus:border-emerald-400 transition">
+                    <button onclick="pushExperience()" class="w-full bg-emerald-500 hover:bg-emerald-400 text-neutral-950 font-bold text-xs py-2.5 rounded-lg transition mt-2">Inject Pengalaman</button>
+                </div>
+            </div>
+
+            <div id="sub-console-video" class="sub-console hidden card-dark p-5 space-y-3 max-w-2xl mx-auto w-full rounded-xl">
+                <h2 class="text-emerald-400 font-bold text-sm mb-2 border-b border-emerald-900 pb-2">Upload Link Video</h2>
+                <input type="text" id="vid-title" placeholder="Judul Video" class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2.5 rounded text-white focus:outline-none focus:border-emerald-400 transition">
+                <input type="text" id="vid-url" placeholder="URL Link Video (.mp4 dll)" class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2.5 rounded text-white focus:outline-none focus:border-emerald-400 transition">
+                <button onclick="pushVideo()" class="w-full bg-emerald-500 hover:bg-emerald-400 text-neutral-950 font-bold text-xs py-2.5 rounded-lg transition mt-2">Broadcast Video</button>
+            </div>
+        </div>
+    </div>
+
     <script>
-        // Proteksi Halaman
         if(localStorage.getItem('uzi_session_active') !== 'true') { window.location.href = 'login.html'; }
-        
-        // Inisialisasi Firebase
         const firebaseConfig = {
             apiKey: "AIzaSyDZ7xMFlPZO0BjjHXKVpY3-yaoR-wUAjhk",
             authDomain: "portofolio-uzi.firebaseapp.com",
@@ -133,122 +123,97 @@
         };
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
-
+        
         function switchTab(t) {
             document.querySelectorAll('.tab-content').forEach(c => c.classList.add('hidden'));
-            document.querySelectorAll('nav button').forEach(b => b.classList.remove('active-tab', 'text-white'));
+            document.querySelectorAll('nav button').forEach(b => b.classList.remove('active-tab'));
             document.getElementById(`content-${t}`).classList.remove('hidden');
-            document.getElementById(`tab-${t}`).classList.add('active-tab', 'text-white');
-        }
-
-        function handleLogout() { 
-            localStorage.removeItem('uzi_session_active'); 
-            window.location.href = 'index.html'; 
-        }
-
-        // FUNGSI UPLOAD STATUS BARU
-        function pushWidget() { 
-            const typeVal = document.getElementById('widget-type').value || 'STATUS';
-            const senderVal = document.getElementById('widget-sender').value;
-            const shortVal = document.getElementById('widget-short').value;
-            const longVal = document.getElementById('widget-long').value;
-            const mediaVal = document.getElementById('widget-media').value;
-            
-            if(!shortVal && !longVal && !mediaVal) {
-                alert("Isi minimal catatan atau masukkan file!"); return;
-            }
-
-            db.ref('widgets/').push({ 
-                type: typeVal,
-                sender: senderVal,
-                short_note: shortVal,
-                long_note: longVal,
-                media: mediaVal,
-                timestamp: Date.now() 
-            }).then(() => {
-                alert('Status Berhasil Diposting!');
-                // Clear input
-                document.getElementById('widget-short').value = '';
-                document.getElementById('widget-long').value = '';
-                document.getElementById('widget-media').value = '';
-            });
-        }
-
-        // FUNGSI UPLOAD PENGALAMAN
-        function pushExperience() { 
-            const titleVal = document.getElementById('exp-title').value;
-            
-            if(!titleVal) { alert("Judul pengalaman wajib diisi!"); return; }
-
-            db.ref('experiences/').push({ 
-                title: titleVal, 
-                summary: document.getElementById('exp-summary').value,
-                start_date: document.getElementById('exp-start').value,
-                end_date: document.getElementById('exp-end').value,
-                img: document.getElementById('exp-img').value,
-                stars: document.getElementById('exp-stars').value,
-                timestamp: Date.now()
-            }).then(() => {
-                alert('Pengalaman Berhasil Disimpan!');
-                document.getElementById('exp-title').value = '';
-                document.getElementById('exp-summary').value = '';
-                document.getElementById('exp-img').value = '';
-            });
+            document.getElementById(`tab-${t}`).classList.add('active-tab');
+            document.querySelectorAll('.sub-console').forEach(sc => sc.classList.add('hidden'));
+            if(document.getElementById(`sub-console-${t}`)) document.getElementById(`sub-console-${t}`).classList.remove('hidden');
         }
         
-        // FUNGSI UPLOAD VIDEO
-        function pushVideo() { 
-            const titleVal = document.getElementById('vid-title').value;
-            const urlVal = document.getElementById('vid-url').value;
-
-            if(!titleVal || !urlVal) { alert("Judul dan URL wajib diisi!"); return; }
-
-            db.ref('videos/').push({ 
-                title: titleVal, 
-                url: urlVal,
-                timestamp: Date.now()
-            }).then(() => {
-                alert('Video Berhasil Dibroadcast!');
-                document.getElementById('vid-title').value = '';
-                document.getElementById('vid-url').value = '';
-            });
-        }
-
-        // REALTIME LISTER UNTUK MANAGE (DELETE) DATA
+        function handleLogout() { localStorage.removeItem('uzi_session_active'); window.location.href = 'index.html'; }
+        
+        // Load data on dashboard
+        db.ref('home_custom/').on('value', snap => {
+            const data = snap.val() || {};
+            document.getElementById('edit-home-status').value = data.home_status || '';
+            document.getElementById('live-home-status').innerText = data.home_status || 'Belum ada status.';
+        });
+        db.ref('profile/').on('value', snap => {
+            const data = snap.val() || {};
+            document.getElementById('edit-name').value = data.name || '';
+            document.getElementById('edit-bio').value = data.bio || '';
+        });
         db.ref('widgets/').on('value', snap => {
-            const container = document.getElementById('manage-widgets');
+            const container = document.getElementById('widgets-container');
             container.innerHTML = '';
             snap.forEach(child => {
                 const w = child.val();
-                container.innerHTML += `<div class="bg-[#0b0f09] p-3 rounded-lg border border-[#233220] flex justify-between items-center"><div class="truncate pr-2"><p class="text-[10px] text-emerald-400 font-bold">${w.type}</p><p class="text-xs text-white truncate w-40">${w.short_note || 'Tidak ada judul'}</p></div><button onclick="deleteCloudItem('widgets', '${child.key}')" class="bg-red-950 text-red-400 hover:text-white px-3 py-1 rounded text-[10px]"><i class="fa-solid fa-trash"></i></button></div>`;
+                container.innerHTML += `<div class="card-dark p-4 rounded-xl"><p class="text-[10px] text-emerald-400 font-bold mb-1">${w.type || 'STATUS'}</p><p class="text-xs text-slate-300">"${w.short_note || w.content || 'Tanpa Ringkasan'}"</p><button onclick="deleteCloudItem('widgets', '${child.key}')" class="text-red-400 text-xs mt-3"><i class="fa-solid fa-trash mr-1"></i> Hapus</button></div>`;
             });
         });
-
         db.ref('experiences/').on('value', snap => {
-            const container = document.getElementById('manage-experiences');
+            const container = document.getElementById('experience-list-container');
             container.innerHTML = '';
             snap.forEach(child => {
                 const e = child.val();
-                container.innerHTML += `<div class="bg-[#0b0f09] p-3 rounded-lg border border-[#233220] flex justify-between items-center"><div class="truncate pr-2"><p class="text-xs text-white truncate w-40 font-bold">${e.title}</p><p class="text-[10px] text-slate-400">${e.stars} Bintang</p></div><button onclick="deleteCloudItem('experiences', '${child.key}')" class="bg-red-950 text-red-400 hover:text-white px-3 py-1 rounded text-[10px]"><i class="fa-solid fa-trash"></i></button></div>`;
+                container.innerHTML += `<div class="card-dark p-4 rounded-xl flex justify-between items-center"><h3 class="text-xs font-bold text-white uppercase">${e.title}</h3><button onclick="deleteCloudItem('experiences', '${child.key}')" class="text-red-400 text-xs"><i class="fa-solid fa-trash mr-1"></i> Hapus</button></div>`;
             });
         });
-
         db.ref('videos/').on('value', snap => {
-            const container = document.getElementById('manage-videos');
+            const container = document.getElementById('video-grid-container');
             container.innerHTML = '';
             snap.forEach(child => {
                 const v = child.val();
-                container.innerHTML += `<div class="bg-[#0b0f09] p-3 rounded-lg border border-[#233220] flex justify-between items-center"><p class="text-xs text-white truncate w-40 pr-2">${v.title}</p><button onclick="deleteCloudItem('videos', '${child.key}')" class="bg-red-950 text-red-400 hover:text-white px-3 py-1 rounded text-[10px]"><i class="fa-solid fa-trash"></i></button></div>`;
+                container.innerHTML += `<div class="card-dark p-3 rounded-xl flex justify-between items-center"><span class="text-xs font-bold">${v.title}</span><button onclick="deleteCloudItem('videos', '${child.key}')" class="text-red-400"><i class="fa-solid fa-trash"></i></button></div>`;
             });
         });
 
-        function deleteCloudItem(path, key) { 
-            if(confirm('Yakin ingin menghapus data ini secara permanen?')) { 
-                db.ref(`${path}/${key}`).remove(); 
-            } 
+        // TAMBAHAN: Push functions dengan field lengkap dan Timestamp Date.now()
+        function pushWidget() { 
+            db.ref('widgets/').push({ 
+                type: document.getElementById('widget-type').value, 
+                sender: document.getElementById('widget-sender').value,
+                short_note: document.getElementById('widget-short').value,
+                long_note: document.getElementById('widget-long').value,
+                file: document.getElementById('widget-file').value,
+                timestamp: Date.now() 
+            }); 
+            alert('Aktivitas/Status Terkirim!'); 
+            document.querySelectorAll('#sub-console-status input, #sub-console-status textarea').forEach(el => el.value = '');
+        }
+
+        function pushExperience() { 
+            db.ref('experiences/').push({ 
+                title: document.getElementById('exp-title').value, 
+                summary: document.getElementById('exp-summary').value,
+                date: document.getElementById('exp-date').value,
+                stars: document.getElementById('exp-stars').value,
+                img: document.getElementById('exp-img').value,
+                timestamp: Date.now()
+            }); 
+            alert('Pengalaman Berhasil Disuntikkan!'); 
+            document.querySelectorAll('#sub-console-pengalaman input, #sub-console-pengalaman textarea').forEach(el => el.value = '');
         }
         
-        document.addEventListener("DOMContentLoaded", () => { switchTab('status'); });
+        function pushVideo() { 
+            db.ref('videos/').push({ 
+                title: document.getElementById('vid-title').value, 
+                url: document.getElementById('vid-url').value,
+                timestamp: Date.now()
+            }); 
+            alert('Sinyal Video Broadcast Online!'); 
+            document.getElementById('vid-title').value = '';
+            document.getElementById('vid-url').value = '';
+        }
+
+        function saveHomeStatus() { db.ref('home_custom/').update({ home_status: document.getElementById('edit-home-status').value }); alert('Status Monitor Diperbarui!'); }
+        function saveProfile() { db.ref('profile/').set({ name: document.getElementById('edit-name').value, bio: document.getElementById('edit-bio').value }); alert('Profil Diperbarui!'); }
+        function deleteCloudItem(path, key) { if(confirm('Apakah Anda yakin ingin menghapus data ini?')) { db.ref(`${path}/${key}`).remove(); } }
+        
+        document.addEventListener("DOMContentLoaded", () => { switchTab('home'); });
     </script>
 </body>
 </html>
