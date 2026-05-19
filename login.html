@@ -6,7 +6,7 @@
     <title>Login Owner - UZIIFAUNAK</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght=300;400;500;600;700&display=swap');
         body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #0f140d; }
     </style>
 </head>
@@ -18,20 +18,21 @@
             <p class="text-slate-500 text-xs mt-1">Autentikasi akses sistem portofolio</p>
         </div>
         
-        <div id="msg" class="hidden bg-red-950/30 border border-red-900/50 text-red-400 text-[10px] p-3 rounded-lg mb-4 text-center font-bold">
-            <i class="fa-solid fa-triangle-exclamation mr-1"></i> Akses Ditolak! Kredensial tidak valid.
+        <div id="msg" class="hidden bg-red-950/30 border border-red-900/50 text-red-400 text-[10px] p-3 rounded mb-4 text-center font-bold">
+            Akses Ditolak. Kredensial Tidak Valid.
         </div>
 
         <form onsubmit="event.preventDefault();" class="space-y-4">
             <div>
-                <label class="block text-slate-400 text-[10px] font-bold mb-1 ml-1 uppercase">Username Akses</label>
-                <input type="text" id="user" class="w-full bg-[#0b0f09] text-white border border-[#233220] focus:border-emerald-500 rounded-lg px-4 py-3 text-sm outline-none transition" placeholder="Masukkan ID Owner" autocomplete="off">
+                <label class="block text-[10px] text-emerald-500 font-bold mb-1 uppercase tracking-wider">Identifier ID</label>
+                <input type="text" id="user" class="w-full bg-[#0b0f09] border border-[#233220] rounded-lg px-4 py-2.5 text-white text-sm focus:outline-none focus:border-emerald-500 transition placeholder:text-slate-700" placeholder="Masukkan ID...">
             </div>
             <div>
-                <label class="block text-slate-400 text-[10px] font-bold mb-1 ml-1 uppercase">Passkey Keamanan</label>
-                <input type="password" id="pass" class="w-full bg-[#0b0f09] text-white border border-[#233220] focus:border-emerald-500 rounded-lg px-4 py-3 text-sm outline-none transition" placeholder="••••••••••••">
+                <label class="block text-[10px] text-emerald-500 font-bold mb-1 uppercase tracking-wider">Passcode</label>
+                <input type="password" id="pass" class="w-full bg-[#0b0f09] border border-[#233220] rounded-lg px-4 py-2.5 text-white text-sm focus:outline-none focus:border-emerald-500 transition placeholder:text-slate-700" placeholder="••••••••">
             </div>
-            <button id="btn-login" class="w-full bg-emerald-600 hover:bg-emerald-500 text-black text-xs font-bold py-3 rounded-lg transition mt-2">
+            
+            <button id="btn-login" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold py-3 rounded-lg transition mt-2">
                 AUTENTIKASI MASUK
             </button>
         </form>
@@ -53,13 +54,15 @@
                 window.location.href = 'owner.html';
             } else {
                 msg.classList.remove('hidden');
-                document.querySelector('.bg-\\[\\#161f14\\]').classList.add('animate-pulse');
+                // Menggoyang elemen sedikit jika salah (efek visual)
+                document.querySelector('.bg-[#161f14]').classList.add('animate-pulse');
                 setTimeout(() => {
-                    document.querySelector('.bg-\\[\\#161f14\\]').classList.remove('animate-pulse');
+                    document.querySelector('.bg-[#161f14]').classList.remove('animate-pulse');
                 }, 500);
             }
         });
 
+        // Tambahkan support tombol "Enter"
         document.addEventListener('keypress', function (e) {
             if (e.key === 'Enter') {
                 document.getElementById('btn-login').click();
