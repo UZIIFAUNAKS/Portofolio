@@ -79,6 +79,7 @@
                         <option value="Foto Postingan">Foto Postingan</option>
                     </select>
                     <input type="text" id="widget-content" placeholder="Deskripsi..." class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2 rounded text-white">
+                    <input type="text" id="widget-media" placeholder="URL Gambar/Media (Opsional)..." class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2 rounded text-white">
                     <button onclick="pushWidget()" class="w-full bg-emerald-500 text-neutral-950 font-bold text-xs py-2 rounded">Push Widget</button>
                 </div>
             </div>
@@ -86,6 +87,7 @@
             <div id="sub-console-pengalaman" class="sub-console hidden card-dark p-4 space-y-3">
                 <input type="text" id="exp-title" placeholder="Nama Proyek/Sertifikat" class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2 rounded text-white">
                 <input type="text" id="exp-summary" placeholder="Deskripsi singkat..." class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2 rounded text-white">
+                <input type="text" id="exp-media" placeholder="URL Media (Opsional)..." class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2 rounded text-white">
                 <div class="grid grid-cols-2 gap-2">
                     <input type="text" id="exp-date" placeholder="Tanggal (misal: Mei 2026)" class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2 rounded text-white">
                     <input type="text" id="exp-rating" placeholder="Bintang (misal: ⭐⭐⭐⭐⭐)" class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2 rounded text-white">
@@ -96,6 +98,10 @@
             <div id="sub-console-video" class="sub-console hidden card-dark p-4 space-y-2">
                 <input type="text" id="vid-title" placeholder="Judul Video" class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2 rounded text-white">
                 <input type="text" id="vid-url" placeholder="URL Video" class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2 rounded text-white">
+                <select id="vid-privacy" class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2 rounded text-slate-300">
+                    <option value="public">Public</option>
+                    <option value="private">Private</option>
+                </select>
                 <button onclick="pushVideo()" class="bg-emerald-500 text-neutral-950 font-bold text-xs px-4 py-2 rounded">Broadcast</button>
             </div>
         </div>
@@ -133,6 +139,7 @@
                 summary: document.getElementById('exp-summary').value,
                 date: document.getElementById('exp-date').value,
                 stars: document.getElementById('exp-rating').value,
+                mediaUrl: document.getElementById('exp-media').value,
                 timestamp: now
             }); 
             alert('Pengalaman Disuntikkan!'); 
@@ -141,8 +148,8 @@
         function saveCnnNews() { db.ref('home_custom/').update({ cnn_text: document.getElementById('edit-cnn-text').value, cnn_link: document.getElementById('edit-cnn-link').value }); alert('Berita Diperbarui!'); }
         function saveHomeStatus() { db.ref('home_custom/').update({ home_status: document.getElementById('edit-home-status').value }); alert('Status Diperbarui!'); }
         function saveProfile() { db.ref('profile/').set({ name: document.getElementById('edit-name').value, bio: document.getElementById('edit-bio').value }); alert('Profil Diperbarui!'); }
-        function pushWidget() { db.ref('widgets/').push({ type: document.getElementById('widget-type').value, content: document.getElementById('widget-content').value, timestamp: now }); alert('Aktivitas Terkirim!'); }
-        function pushVideo() { db.ref('videos/').push({ title: document.getElementById('vid-title').value, url: document.getElementById('vid-url').value, timestamp: now }); alert('Sinyal Video Online!'); }
+        function pushWidget() { db.ref('widgets/').push({ type: document.getElementById('widget-type').value, content: document.getElementById('widget-content').value, mediaUrl: document.getElementById('widget-media').value, timestamp: now }); alert('Aktivitas Terkirim!'); }
+        function pushVideo() { db.ref('videos/').push({ title: document.getElementById('vid-title').value, url: document.getElementById('vid-url').value, privacy: document.getElementById('vid-privacy').value, timestamp: now }); alert('Sinyal Video Online!'); }
         function deleteCloudItem(path, key) { if(confirm('Hapus item?')) { db.ref(`${path}/${key}`).remove(); } }
 
         db.ref('home_custom/').on('value', snap => {
