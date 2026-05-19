@@ -25,10 +25,10 @@
             <button onclick="handleLogout()" class="bg-red-500/10 text-red-400 border border-red-900/40 text-[10px] font-bold px-3 py-1.5 rounded-lg hover:bg-red-500 hover:text-white transition">Logout</button>
         </div>
         <div class="flex flex-wrap justify-center gap-1.5 bg-[#0b0f09] p-1 rounded-xl border border-[#1d291a] font-medium text-[10px] sm:text-xs">
-            <button onclick="switchTab('home')" id="tab-home" class="px-3 py-2 rounded-lg text-slate-400 hover:text-white transition active-tab">Home Mod</button>
-            <button onclick="switchTab('status')" id="tab-status" class="px-3 py-2 rounded-lg text-slate-400 hover:text-white transition">Status Mod</button>
-            <button onclick="switchTab('pengalaman')" id="tab-pengalaman" class="px-3 py-2 rounded-lg text-slate-400 hover:text-white transition">Exp Mod</button>
-            <button onclick="switchTab('video')" id="tab-video" class="px-3 py-2 rounded-lg text-slate-400 hover:text-white transition">Video Mod</button>
+            <button onclick="switchTab('home')" id="tab-home" class="px-3 py-2 rounded-lg text-slate-400 hover:text-white transition active-tab">Home</button>
+            <button onclick="switchTab('status')" id="tab-status" class="px-3 py-2 rounded-lg text-slate-400 hover:text-white transition">Status</button>
+            <button onclick="switchTab('pengalaman')" id="tab-pengalaman" class="px-3 py-2 rounded-lg text-slate-400 hover:text-white transition">Exp</button>
+            <button onclick="switchTab('video')" id="tab-video" class="px-3 py-2 rounded-lg text-slate-400 hover:text-white transition">Video</button>
         </div>
     </nav>
 
@@ -41,7 +41,6 @@
 
     <div class="w-full bg-[#11170e] border-t border-[#233220] p-6">
         <div class="max-w-7xl w-full mx-auto">
-            <!-- Home Sub -->
             <div id="sub-console-home" class="sub-console grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div class="card-dark p-4 space-y-2">
                     <input type="text" id="edit-cnn-text" placeholder="Judul Berita..." class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2 rounded text-white">
@@ -53,15 +52,26 @@
                     <button onclick="saveHomeStatus()" class="bg-amber-500 text-neutral-950 font-bold text-xs px-4 py-1.5 rounded">Update Status</button>
                 </div>
             </div>
-            <!-- Status Sub -->
+            
             <div id="sub-console-status" class="sub-console hidden grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div class="card-dark p-4 space-y-2">
                     <input type="text" id="edit-name" placeholder="Nama Profil..." class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2 rounded text-white">
                     <input type="text" id="edit-bio" placeholder="Bio..." class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2 rounded text-white">
                     <button onclick="saveProfile()" class="bg-emerald-500 text-neutral-950 font-bold text-xs px-4 py-1.5 rounded">Update Profil</button>
                 </div>
+                <!-- Widget Form LENGKAP -->
+                <div class="card-dark p-4 space-y-2">
+                    <select id="widget-type" class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2 rounded text-slate-300">
+                        <option value="Nota Harian">Nota Harian</option>
+                        <option value="Lagu Online">Lagu Online</option>
+                        <option value="Foto Postingan">Foto Postingan</option>
+                    </select>
+                    <input type="text" id="widget-content" placeholder="Konten Deskripsi..." class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2 rounded text-white">
+                    <input type="text" id="widget-media-url" placeholder="Direct Link Gambar" class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2 rounded text-white">
+                    <button onclick="pushWidget()" class="w-full bg-emerald-500 text-neutral-950 font-bold text-xs py-2 rounded">Push Widget</button>
+                </div>
             </div>
-            <!-- Experience Sub (LENGKAP) -->
+
             <div id="sub-console-pengalaman" class="sub-console hidden card-dark p-4 space-y-3 max-w-2xl">
                 <span class="text-[10px] font-bold text-emerald-400 uppercase block">Tambah Pengalaman & Sertifikat</span>
                 <div class="grid grid-cols-2 gap-3">
@@ -75,7 +85,7 @@
                 </div>
                 <button onclick="pushExperience()" class="bg-emerald-500 text-neutral-950 font-bold text-xs px-5 py-2 rounded-xl">Inject Exp Mod</button>
             </div>
-            <!-- Video Sub -->
+
             <div id="sub-console-video" class="sub-console hidden card-dark p-4 space-y-2 max-w-xl">
                 <input type="text" id="vid-title" placeholder="Judul Video" class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2 rounded text-white">
                 <input type="text" id="vid-url" placeholder="URL Video" class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2 rounded text-white">
@@ -108,7 +118,16 @@
         }
         function handleLogout() { localStorage.removeItem('uzi_session_active'); window.location.href = 'index.html'; }
         
-        // PENGALAMAN: Pastikan fungsi pushExperience menyesuaikan ID baru
+        // Fungsi PUSH LENGKAP
+        function pushWidget() {
+            db.ref('widgets/').push({
+                type: document.getElementById('widget-type').value,
+                content: document.getElementById('widget-content').value,
+                mediaUrl: document.getElementById('widget-media-url').value,
+                timestamp: Date.now()
+            });
+            alert('Widget Terkirim!');
+        }
         function pushExperience() {
             db.ref('experiences/').push({
                 title: document.getElementById('exp-title').value,
@@ -119,8 +138,6 @@
             });
             alert('Pengalaman Disuntikkan!');
         }
-
-        // Fungsi pendukung lainnya
         function saveCnnNews() { db.ref('home_custom/').update({ cnn_text: document.getElementById('edit-cnn-text').value, cnn_link: document.getElementById('edit-cnn-link').value }); alert('Berita Diperbarui!'); }
         function saveHomeStatus() { db.ref('home_custom/').update({ home_status: document.getElementById('edit-home-status').value }); alert('Status Diperbarui!'); }
         function saveProfile() { db.ref('profile/').set({ name: document.getElementById('edit-name').value, bio: document.getElementById('edit-bio').value }); alert('Profil Diperbarui!'); }
