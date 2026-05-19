@@ -147,37 +147,37 @@
             document.getElementById('edit-bio').value = data.bio || '';
         });
 
-        // Realtime Status Monitor di Owner (Fix Render HTML)
+        // Realtime Status Monitor di Owner (Fix Render HTML + Push Support)
         db.ref('widgets/').on('value', snap => {
             let htmlContent = '';
             snap.forEach(child => {
                 const w = child.val();
-                htmlContent += `<div class="card-dark p-4 rounded-xl"><p class="text-[10px] text-emerald-400 font-bold mb-1">${w.type || 'STATUS'}</p><p class="text-xs text-slate-300">"${w.short_note || w.content || 'Tanpa Ringkasan'}"</p><button onclick="deleteCloudItem('widgets', '${child.key}')" class="text-red-400 text-xs mt-3"><i class="fa-solid fa-trash mr-1"></i> Hapus</button></div>`;
+                htmlContent = `<div class="card-dark p-4 rounded-xl"><p class="text-[10px] text-emerald-400 font-bold mb-1">${w.type || 'STATUS'}</p><p class="text-xs text-slate-300">"${w.short_note || w.content || 'Tanpa Ringkasan'}"</p><button onclick="deleteCloudItem('widgets', '${child.key}')" class="text-red-400 text-xs mt-3"><i class="fa-solid fa-trash mr-1"></i> Hapus</button></div>` + htmlContent; // Penumpukan ke atas
             });
             document.getElementById('widgets-container').innerHTML = htmlContent || '<p class="text-xs text-slate-500">Belum ada aktivitas.</p>';
         });
 
-        // Realtime Pengalaman Monitor di Owner (Fix Render HTML)
+        // Realtime Pengalaman Monitor di Owner (Fix Render HTML + Push Support)
         db.ref('experiences/').on('value', snap => {
             let htmlContent = '';
             snap.forEach(child => {
                 const e = child.val();
-                htmlContent += `<div class="card-dark p-4 rounded-xl flex justify-between items-center"><h3 class="text-xs font-bold text-white uppercase">${e.title}</h3><button onclick="deleteCloudItem('experiences', '${child.key}')" class="text-red-400 text-xs"><i class="fa-solid fa-trash mr-1"></i> Hapus</button></div>`;
+                htmlContent = `<div class="card-dark p-4 rounded-xl flex justify-between items-center"><h3 class="text-xs font-bold text-white uppercase">${e.title}</h3><button onclick="deleteCloudItem('experiences', '${child.key}')" class="text-red-400 text-xs"><i class="fa-solid fa-trash mr-1"></i> Hapus</button></div>` + htmlContent; // Penumpukan ke atas
             });
             document.getElementById('experience-list-container').innerHTML = htmlContent || '<p class="text-xs text-slate-500">Belum ada pengalaman.</p>';
         });
 
-        // Realtime Video Monitor di Owner (Fix Render HTML)
+        // Realtime Video Monitor di Owner (Fix Render HTML + Push Support)
         db.ref('videos/').on('value', snap => {
             let htmlContent = '';
             snap.forEach(child => {
                 const v = child.val();
-                htmlContent += `<div class="card-dark p-3 rounded-xl flex justify-between items-center"><span class="text-xs font-bold">${v.title}</span><button onclick="deleteCloudItem('videos', '${child.key}')" class="text-red-400"><i class="fa-solid fa-trash"></i></button></div>`;
+                htmlContent = `<div class="card-dark p-3 rounded-xl flex justify-between items-center"><span class="text-xs font-bold">${v.title}</span><button onclick="deleteCloudItem('videos', '${child.key}')" class="text-red-400"><i class="fa-solid fa-trash"></i></button></div>` + htmlContent; // Penumpukan ke atas
             });
             document.getElementById('video-grid-container').innerHTML = htmlContent || '<p class="text-xs text-slate-500">Belum ada video.</p>';
         });
 
-        // Functions Data Push
+        // Functions Data Push - MENGGUNAKAN .push() BUKAN .set()
         function pushWidget() { 
             db.ref('widgets/').push({ 
                 type: document.getElementById('widget-type').value, 
@@ -216,7 +216,7 @@
         }
 
         function saveHomeStatus() { db.ref('home_custom/').update({ home_status: document.getElementById('edit-home-status').value }); alert('Status Monitor Diperbarui!'); }
-        function saveProfile() { db.ref('profile/').set({ name: document.getElementById('edit-name').value, bio: document.getElementById('edit-bio').value }); alert('Profil Diperbarui!'); }
+        function saveProfile() { db.ref('profile/').update({ name: document.getElementById('edit-name').value, bio: document.getElementById('edit-bio').value }); alert('Profil Diperbarui!'); }
         function deleteCloudItem(path, key) { if(confirm('Apakah Anda yakin ingin menghapus data ini?')) { db.ref(`${path}/${key}`).remove(); } }
         
         document.addEventListener("DOMContentLoaded", () => { switchTab('home'); });
