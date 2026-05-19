@@ -17,121 +17,87 @@
         .active-tab { background-color: #233220; color: #4ade80; border-bottom: 2px solid #4ade80; }
     </style>
 </head>
-<body class="text-slate-200 min-h-screen flex flex-col justify-between">
+<body class="text-slate-200 min-h-screen flex flex-col">
 
-    <div>
-        <nav class="bg-[#121910]/90 backdrop-blur-md border-b border-[#233220] px-6 py-4 flex justify-between items-center">
-            <div class="flex items-center space-x-3">
-                <span class="font-extrabold text-xl text-emerald-400 tracking-wider">UZIIFAUNAK</span>
-                <span class="text-[9px] bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 px-2 py-0.5 rounded font-bold uppercase">Owner Console</span>
+    <nav class="bg-[#121910]/90 backdrop-blur-md border-b border-[#233220] px-4 py-4 flex flex-col gap-4 sticky top-0 z-50">
+        <div class="flex justify-between items-center w-full">
+            <span class="font-extrabold text-lg text-emerald-400 tracking-wider">UZIIFAUNAK</span>
+            <button onclick="handleLogout()" class="bg-red-500/10 text-red-400 border border-red-900/40 text-[10px] font-bold px-3 py-1.5 rounded-lg hover:bg-red-500 hover:text-white transition">Logout</button>
+        </div>
+        <div class="flex flex-wrap justify-center gap-1.5 bg-[#0b0f09] p-1 rounded-xl border border-[#1d291a] font-medium text-[10px] sm:text-xs">
+            <button onclick="switchTab('home')" id="tab-home" class="px-3 py-2 rounded-lg text-slate-400 hover:text-white transition active-tab">Home Mod</button>
+            <button onclick="switchTab('status')" id="tab-status" class="px-3 py-2 rounded-lg text-slate-400 hover:text-white transition">Status Mod</button>
+            <button onclick="switchTab('pengalaman')" id="tab-pengalaman" class="px-3 py-2 rounded-lg text-slate-400 hover:text-white transition">Exp Mod</button>
+            <button onclick="switchTab('video')" id="tab-video" class="px-3 py-2 rounded-lg text-slate-400 hover:text-white transition">Video Mod</button>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl w-full mx-auto px-4 py-8 flex-1">
+        <section id="content-home" class="tab-content">
+            <h1 class="text-lg font-bold text-white mb-2">Home Header Live Monitor</h1>
+            <div id="home-monitor-box" class="card-dark p-4 rounded-xl max-w-md">
+                <p class="text-xs text-emerald-400 font-bold">Status Utama Saat Ini:</p>
+                <p id="live-home-status" class="text-xs text-slate-300 mt-1 italic">Loading...</p>
             </div>
-            <div class="flex space-x-2 bg-[#0b0f09] p-1.5 rounded-xl border border-[#1d291a] font-medium text-xs">
-                <button onclick="switchTab('home')" id="tab-home" class="px-4 py-2 rounded-lg text-slate-400 hover:text-white transition active-tab">Home Mod</button>
-                <button onclick="switchTab('status')" id="tab-status" class="px-4 py-2 rounded-lg text-slate-400 hover:text-white transition">Status Mod</button>
-                <button onclick="switchTab('pengalaman')" id="tab-pengalaman" class="px-4 py-2 rounded-lg text-slate-400 hover:text-white transition">Exp Mod</button>
-                <button onclick="switchTab('video')" id="tab-video" class="px-4 py-2 rounded-lg text-slate-400 hover:text-white transition">Video Mod</button>
-            </div>
-            <button onclick="handleLogout()" class="bg-red-500/10 text-red-400 border border-red-900/40 text-xs font-bold px-4 py-2 rounded-xl hover:bg-red-500 hover:text-white transition">Logout</button>
-        </nav>
+        </section>
+        <section id="content-status" class="tab-content hidden">
+            <h1 class="text-lg font-bold text-white mb-4">Aktivitas Cloud</h1>
+            <div id="widgets-container" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
+        </section>
+        <section id="content-pengalaman" class="tab-content hidden">
+            <h1 class="text-lg font-bold text-white mb-4">Daftar Pengalaman</h1>
+            <div id="experience-list-container" class="grid grid-cols-1 gap-4"></div>
+        </section>
+        <section id="content-video" class="tab-content hidden">
+            <h1 class="text-lg font-bold text-white mb-4">Video Management</h1>
+            <div id="video-grid-container" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
+        </section>
+    </main>
 
-        <main class="max-w-7xl w-full mx-auto px-6 py-8">
-            <section id="content-home" class="tab-content">
-                <h1 class="text-lg font-bold text-white mb-2">Home Header Live Monitor</h1>
-                <p class="text-xs text-slate-400 mb-6">Memonitor teks berjalan dan headline CNN Indonesia aktif.</p>
-                <div id="home-monitor-box" class="card-dark p-4 rounded-xl max-w-md">
-                    <p class="text-xs text-emerald-400 font-bold">Status Utama Saat Ini:</p>
-                    <p id="live-home-status" class="text-xs text-slate-300 mt-1 italic">Loading...</p>
-                </div>
-            </section>
-            
-            <section id="content-status" class="tab-content hidden">
-                <h1 class="text-lg font-bold text-white mb-4">Aktivitas & Widget Aktif di Cloud</h1>
-                <div id="widgets-container" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
-            </section>
-            
-            <section id="content-pengalaman" class="tab-content hidden">
-                <h1 class="text-lg font-bold text-white mb-4">Daftar Pengalaman Kerja & Sertifikat</h1>
-                <div id="experience-list-container" class="grid grid-cols-1 gap-4"></div>
-            </section>
-            
-            <section id="content-video" class="tab-content hidden">
-                <h1 class="text-lg font-bold text-white mb-4">Video Broadcast Management</h1>
-                <div id="video-grid-container" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
-            </section>
-        </main>
-    </div>
-
-    <div class="w-full bg-[#11170e] border-t border-[#233220] p-6 mt-12">
+    <div class="w-full bg-[#11170e] border-t border-[#233220] p-6">
         <div class="max-w-7xl w-full mx-auto">
-            
             <div id="sub-console-home" class="sub-console grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div class="card-dark p-4 space-y-2">
-                    <span class="text-[10px] font-bold text-red-400 uppercase block">Modify CNN Component</span>
-                    <input type="text" id="edit-cnn-text" placeholder="Judul Teks Berita CNN..." class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2 rounded text-white">
-                    <input type="text" id="edit-cnn-link" placeholder="Link Tujuan Berita..." class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2 rounded text-white">
+                    <input type="text" id="edit-cnn-text" placeholder="Judul Berita..." class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2 rounded text-white">
+                    <input type="text" id="edit-cnn-link" placeholder="Link..." class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2 rounded text-white">
                     <button onclick="saveCnnNews()" class="bg-red-600 text-white font-bold text-xs px-4 py-1.5 rounded">Update Berita</button>
                 </div>
                 <div class="card-dark p-4 space-y-2">
-                    <span class="text-[10px] font-bold text-amber-400 uppercase block">Modify Beranda Status</span>
-                    <input type="text" id="edit-home-status" placeholder="Sedang sibuk belajar coding..." class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2 rounded text-white">
+                    <input type="text" id="edit-home-status" placeholder="Status..." class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2 rounded text-white">
                     <button onclick="saveHomeStatus()" class="bg-amber-500 text-neutral-950 font-bold text-xs px-4 py-1.5 rounded">Update Status</button>
                 </div>
             </div>
-
             <div id="sub-console-status" class="sub-console hidden grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div class="card-dark p-4 space-y-2">
-                    <span class="text-[10px] font-bold text-slate-400 uppercase">Update Profil Utama</span>
                     <input type="text" id="edit-name" placeholder="Nama Profil..." class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2 rounded text-white">
-                    <input type="text" id="edit-bio" placeholder="Bio Deskripsi..." class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2 rounded text-white">
+                    <input type="text" id="edit-bio" placeholder="Bio..." class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2 rounded text-white">
                     <button onclick="saveProfile()" class="bg-emerald-500 text-neutral-950 font-bold text-xs px-4 py-1.5 rounded">Update Profil</button>
                 </div>
                 <div class="card-dark p-4 space-y-2">
-                    <span class="text-[10px] font-bold text-emerald-400 uppercase block">Tambah Aktivitas Harian</span>
-                    <div class="grid grid-cols-2 gap-2">
-                        <select id="widget-type" class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2 rounded text-slate-300">
-                            <option value="Nota Harian">Nota Harian</option>
-                            <option value="Lagu Online">Lagu Online</option>
-                            <option value="Foto Postingan">Foto Postingan</option>
-                        </select>
-                        <input type="text" id="widget-sub" placeholder="Sumber (Me/Spotify)" class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2 rounded text-white">
-                    </div>
-                    <input type="text" id="widget-content" placeholder="Konten Deskripsi..." class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2 rounded text-white">
-                    <input type="text" id="widget-media-url" placeholder="Direct Link Gambar" class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2 rounded text-white">
+                    <select id="widget-type" class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2 rounded text-slate-300">
+                        <option value="Nota Harian">Nota Harian</option>
+                        <option value="Lagu Online">Lagu Online</option>
+                        <option value="Foto Postingan">Foto Postingan</option>
+                    </select>
+                    <input type="text" id="widget-content" placeholder="Deskripsi..." class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2 rounded text-white">
                     <button onclick="pushWidget()" class="w-full bg-emerald-500 text-neutral-950 font-bold text-xs py-2 rounded">Push Widget</button>
                 </div>
             </div>
-
-            <div id="sub-console-pengalaman" class="sub-console hidden card-dark p-4 space-y-3 max-w-2xl">
-                <span class="text-[10px] font-bold text-emerald-400 uppercase block">Tambah Pengalaman & Sertifikat</span>
-                <div class="grid grid-cols-2 gap-3">
-                    <input type="text" id="exp-title" placeholder="Nama Sertifikasi / Judul Proyek" class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2 rounded text-white">
-                    <input type="text" id="exp-media-url" placeholder="Direct Link File Gambar" class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2 rounded text-white">
-                </div>
-                <input type="text" id="exp-summary" placeholder="Deskripsi penjelasan singkat..." class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2 rounded text-white">
-                <div class="grid grid-cols-2 gap-3">
-                    <input type="text" id="exp-date-string" placeholder="Contoh: Mei 2026" class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2 rounded text-white">
-                    <input type="text" id="exp-rating" placeholder="Contoh: ⭐⭐⭐⭐⭐ (5 Bintang)" class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2 rounded text-white">
-                </div>
-                <button onclick="pushExperience()" class="bg-emerald-500 text-neutral-950 font-bold text-xs px-5 py-2 rounded-xl">Inject Exp Mod</button>
+            <div id="sub-console-pengalaman" class="sub-console hidden card-dark p-4 space-y-3">
+                <input type="text" id="exp-title" placeholder="Nama Proyek/Sertifikat" class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2 rounded text-white">
+                <input type="text" id="exp-summary" placeholder="Deskripsi singkat..." class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2 rounded text-white">
+                <button onclick="pushExperience()" class="bg-emerald-500 text-neutral-950 font-bold text-xs px-5 py-2 rounded-xl">Inject Exp</button>
             </div>
-
-            <div id="sub-console-video" class="sub-console hidden card-dark p-4 space-y-2 max-w-xl">
-                <span class="text-[10px] font-bold text-slate-400 uppercase">Broadcast Video System</span>
+            <div id="sub-console-video" class="sub-console hidden card-dark p-4 space-y-2">
                 <input type="text" id="vid-title" placeholder="Judul Video" class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2 rounded text-white">
-                <input type="text" id="vid-url" placeholder="Direct URL Video (.mp4)" class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2 rounded text-white">
-                <select id="vid-privacy" class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2 rounded text-slate-400">
-                    <option value="public">Public</option>
-                    <option value="private">Private</option>
-                </select>
-                <button onclick="pushVideo()" class="bg-emerald-500 text-neutral-950 font-bold text-xs px-4 py-2 rounded">Broadcast Live</button>
+                <input type="text" id="vid-url" placeholder="URL Video" class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2 rounded text-white">
+                <button onclick="pushVideo()" class="bg-emerald-500 text-neutral-950 font-bold text-xs px-4 py-2 rounded">Broadcast</button>
             </div>
-
         </div>
     </div>
 
     <script>
         if(localStorage.getItem('uzi_session_active') !== 'true') { window.location.href = 'login.html'; }
-
         const firebaseConfig = {
             apiKey: "AIzaSyDZ7xMFlPZO0BjjHXKVpY3-yaoR-wUAjhk",
             authDomain: "portofolio-uzi.firebaseapp.com",
@@ -142,10 +108,8 @@
             appId: "1:190552716843:web:32d9c26f299867bfc19c6e",
             measurementId: "G-0ZJTEGNXTW"
         };
-
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
-
         function switchTab(t) {
             document.querySelectorAll('.tab-content').forEach(c => c.classList.add('hidden'));
             document.querySelectorAll('nav button').forEach(b => b.classList.remove('active-tab'));
@@ -154,9 +118,7 @@
             document.querySelectorAll('.sub-console').forEach(sc => sc.classList.add('hidden'));
             if(document.getElementById(`sub-console-${t}`)) document.getElementById(`sub-console-${t}`).classList.remove('hidden');
         }
-
         function handleLogout() { localStorage.removeItem('uzi_session_active'); window.location.href = 'index.html'; }
-
         db.ref('home_custom/').on('value', snap => {
             const data = snap.val() || {};
             document.getElementById('edit-cnn-text').value = data.cnn_text || '';
@@ -164,83 +126,42 @@
             document.getElementById('edit-home-status').value = data.home_status || '';
             document.getElementById('live-home-status').innerText = data.home_status || 'Belum ada status.';
         });
-
         db.ref('profile/').on('value', snap => {
             const data = snap.val() || {};
             document.getElementById('edit-name').value = data.name || '';
             document.getElementById('edit-bio').value = data.bio || '';
         });
-
         db.ref('widgets/').on('value', snap => {
             const container = document.getElementById('widgets-container');
             container.innerHTML = '';
             snap.forEach(child => {
                 const w = child.val();
-                container.innerHTML += `<div class="card-dark p-4 rounded-xl flex flex-col justify-between relative shadow-lg">
-                    <div><span class="text-[9px] bg-emerald-500/10 text-emerald-400 font-bold px-2 py-0.5 rounded uppercase">${w.type}</span>
-                    <p class="text-xs text-slate-300 mt-2">"${w.content}"</p></div>
-                    <div class="mt-4 pt-2 border-t border-emerald-950/40"><button onclick="deleteCloudItem('widgets', '${child.key}')" class="text-red-400 text-xs hover:text-red-500"><i class="fa-solid fa-trash mr-1"></i>Hapus</button></div>
-                </div>`;
+                container.innerHTML += `<div class="card-dark p-4 rounded-xl"><p class="text-xs text-slate-300">"${w.content}"</p><button onclick="deleteCloudItem('widgets', '${child.key}')" class="text-red-400 text-xs mt-2">Hapus</button></div>`;
             });
         });
-
         db.ref('experiences/').on('value', snap => {
             const container = document.getElementById('experience-list-container');
             container.innerHTML = '';
             snap.forEach(child => {
                 const e = child.val();
-                container.innerHTML += `<div class="card-dark p-4 rounded-xl flex justify-between items-center">
-                    <div><h3 class="text-xs font-bold text-white uppercase">${e.title}</h3><span class="text-[10px] text-slate-500">${e.date || ''}</span></div>
-                    <button onclick="deleteCloudItem('experiences', '${child.key}')" class="text-red-400 text-xs hover:text-red-500"><i class="fa-solid fa-trash"></i></button>
-                </div>`;
+                container.innerHTML += `<div class="card-dark p-4 rounded-xl flex justify-between items-center"><h3 class="text-xs font-bold text-white uppercase">${e.title}</h3><button onclick="deleteCloudItem('experiences', '${child.key}')" class="text-red-400 text-xs">Hapus</button></div>`;
             });
         });
-
         db.ref('videos/').on('value', snap => {
             const container = document.getElementById('video-grid-container');
             container.innerHTML = '';
             snap.forEach(child => {
                 const v = child.val();
-                container.innerHTML += `<div class="card-dark p-3 rounded-xl flex justify-between items-center"><span class="text-xs font-bold">${v.title}</span>
-                <button onclick="deleteCloudItem('videos', '${child.key}')" class="text-red-400 hover:text-red-500"><i class="fa-solid fa-trash"></i></button></div>`;
+                container.innerHTML += `<div class="card-dark p-3 rounded-xl flex justify-between items-center"><span class="text-xs font-bold">${v.title}</span><button onclick="deleteCloudItem('videos', '${child.key}')" class="text-red-400"><i class="fa-solid fa-trash"></i></button></div>`;
             });
         });
-
         function saveCnnNews() { db.ref('home_custom/').update({ cnn_text: document.getElementById('edit-cnn-text').value, cnn_link: document.getElementById('edit-cnn-link').value }); alert('Berita Diperbarui!'); }
-        function saveHomeStatus() { db.ref('home_custom/').update({ home_status: document.getElementById('edit-home-status').value }); alert('Status Beranda Diperbarui!'); }
+        function saveHomeStatus() { db.ref('home_custom/').update({ home_status: document.getElementById('edit-home-status').value }); alert('Status Diperbarui!'); }
         function saveProfile() { db.ref('profile/').set({ name: document.getElementById('edit-name').value, bio: document.getElementById('edit-bio').value }); alert('Profil Diperbarui!'); }
-        
-        function pushWidget() {
-            db.ref('widgets/').push({
-                type: document.getElementById('widget-type').value,
-                sub: document.getElementById('widget-sub').value || 'System',
-                content: document.getElementById('widget-content').value,
-                mediaUrl: document.getElementById('widget-media-url').value,
-                timestamp: Date.now()
-            });
-            document.getElementById('widget-content').value = '';
-            document.getElementById('widget-media-url').value = '';
-            alert('Aktivitas Terkirim!');
-        }
-
-        function pushExperience() {
-            db.ref('experiences/').push({
-                title: document.getElementById('exp-title').value,
-                mediaUrl: document.getElementById('exp-media-url').value,
-                summary: document.getElementById('exp-summary').value,
-                date: document.getElementById('exp-date-string').value,
-                stars: document.getElementById('exp-rating').value
-            });
-            alert('Pengalaman Disuntikkan!');
-        }
-
-        function pushVideo() {
-            db.ref('videos/').push({ title: document.getElementById('vid-title').value, url: document.getElementById('vid-url').value, privacy: document.getElementById('vid-privacy').value });
-            alert('Sinyal Video Online!');
-        }
-
-        function deleteCloudItem(path, key) { if(confirm('Hapus item secara permanen?')) { db.ref(`${path}/${key}`).remove(); } }
-
+        function pushWidget() { db.ref('widgets/').push({ type: document.getElementById('widget-type').value, content: document.getElementById('widget-content').value, timestamp: Date.now() }); alert('Aktivitas Terkirim!'); }
+        function pushExperience() { db.ref('experiences/').push({ title: document.getElementById('exp-title').value, summary: document.getElementById('exp-summary').value }); alert('Pengalaman Disuntikkan!'); }
+        function pushVideo() { db.ref('videos/').push({ title: document.getElementById('vid-title').value, url: document.getElementById('vid-url').value }); alert('Sinyal Video Online!'); }
+        function deleteCloudItem(path, key) { if(confirm('Hapus item?')) { db.ref(`${path}/${key}`).remove(); } }
         document.addEventListener("DOMContentLoaded", () => { switchTab('home'); });
     </script>
 </body>
