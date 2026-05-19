@@ -6,7 +6,6 @@
     <title>Portofolio UZIIFAUNAK</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
     <style>
@@ -19,7 +18,6 @@
 <body class="text-slate-200 min-h-screen flex flex-col justify-between">
 
     <div>
-        <!-- NAVIGASI RESPONSIVE -->
         <nav class="bg-[#121910]/90 backdrop-blur-md sticky top-0 z-50 border-b border-[#233220] px-6 py-4 flex flex-col items-center gap-4">
             <div class="flex w-full justify-between items-center max-w-7xl">
                 <span class="font-extrabold text-xl text-emerald-400 tracking-wider">UZIIFAUNAK</span>
@@ -27,7 +25,6 @@
                     <i class="fa-solid fa-right-to-bracket"></i> OWNER
                 </a>
             </div>
-            
             <div class="flex flex-wrap justify-center gap-1.5 bg-[#0b0f09] p-1 rounded-xl border border-[#1d291a] font-medium text-[11px] w-full max-w-xl">
                 <button onclick="switchTab('home')" id="tab-home" class="px-4 py-2 rounded-lg text-slate-400 hover:text-white transition active-tab">Beranda</button>
                 <button onclick="switchTab('status')" id="tab-status" class="px-4 py-2 rounded-lg text-slate-400 hover:text-white transition">Status</button>
@@ -43,13 +40,12 @@
                         <span class="text-xs font-bold uppercase tracking-widest text-emerald-400 bg-emerald-950/60 border border-emerald-900/60 px-3 py-1 rounded-md">Portofolio ABHINAYA FAUZI</span>
                         <h1 class="text-4xl lg:text-5xl font-extrabold tracking-tight text-white leading-tight">Welcome to My Workspace,<br><span class="text-emerald-400">glad to have you here!</span></h1>
                         <p class="text-sm text-slate-400 max-w-xl leading-relaxed">Terimakasih sudah mengunjungi website ini. Silakan untuk menjelajahi seluruh portofolio dan proyek sistem digital yang sudah saya buat.</p>
-                        
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
                             <div class="card-dark p-4 rounded-xl flex items-start gap-3">
                                 <div class="text-red-500 text-lg pt-0.5"><i class="fa-solid fa-newspaper"></i></div>
                                 <div>
                                     <span class="text-[10px] font-bold text-red-400 uppercase tracking-wider block">CNN News Update</span>
-                                    <a id="home-cnn-link" href="https://cnnindonesia.com" target="_blank" class="text-xs text-slate-200 hover:text-emerald-400 font-semibold line-clamp-2 mt-1 transition">Loading...</a>
+                                    <a id="home-cnn-link" href="#" target="_blank" class="text-xs text-slate-200 hover:text-emerald-400 font-semibold line-clamp-2 mt-1 transition">Loading...</a>
                                 </div>
                             </div>
                             <div class="card-dark p-4 rounded-xl flex items-start gap-3">
@@ -63,8 +59,7 @@
                     </div>
                     <div class="lg:col-span-5 flex justify-center">
                         <div class="w-80 h-[380px] bg-emerald-950 rounded-t-full relative overflow-hidden shadow-2xl border-4 border-[#233220]">
-                            <img src="https://cdn.discordapp.com/attachments/1142606456558977024/1506000533188644864/WhatsApp_Image_2026-05-19_at_01.23.21.jpeg?ex=6a0cabcb&is=6a0b5a4b&hm=6bc369302caffa0b6b52f6434dcc2e9faa45b8168c352df6420e1fd3f95b1f37&auto=format&fit=crop&q=80&w=1000" class="w-full h-full object-cover grayscale contrast-125">
-                            <div class="absolute inset-0 bg-gradient-to-t from-[#0f140d] to-transparent"></div>
+                            <img src="https://cdn.discordapp.com/attachments/1142606456558977024/1506000533188644864/WhatsApp_Image_2026-05-19_at_01.23.21.jpeg?ex=6a0cabcb&is=6a0b5a4b&hm=6bc369302caffa0b6b52f6434dcc2e9faa45b8168c352df6420e1fd3f95b1f37" class="w-full h-full object-cover grayscale contrast-125">
                         </div>
                     </div>
                 </div>
@@ -72,7 +67,7 @@
 
             <section id="content-status" class="tab-content hidden">
                 <div class="card-dark p-6 rounded-2xl mb-8 flex items-center gap-4">
-                    <img src="https://cdn.discordapp.com/attachments/1142606456558977024/1506000532626477096/WhatsApp_Image_2026-05-19_at_01.23.53.jpeg?ex=6a0cabcb&is=6a0b5a4b&hm=c61e055f1e5676de7d8b1f33c1a38a6d0f94ce78a0082155159f0754e79854b8&auto=format&fit=crop&q=80&w=200" class="w-16 h-16 rounded-full object-cover border-2 border-emerald-400">
+                    <img src="https://cdn.discordapp.com/attachments/1142606456558977024/1506000532626477096/WhatsApp_Image_2026-05-19_at_01.23.53.jpeg?ex=6a0cabcb&is=6a0b5a4b&hm=c61e055f1e5676de7d8b1f33c1a38a6d0f94ce78a0082155159f0754e79854b8" class="w-16 h-16 rounded-full object-cover border-2 border-emerald-400">
                     <div>
                         <h2 id="status-name" class="text-xl font-bold text-white">UZI ABHINAYA</h2>
                         <p id="status-bio" class="text-sm text-slate-400 mt-1">Student & Digital Creator.</p>
@@ -82,10 +77,7 @@
             </section>
 
             <section id="content-pengalaman" class="tab-content hidden">
-                <div class="mb-6">
-                    <h1 class="text-3xl font-bold text-white tracking-tight">Experience & Certificates</h1>
-                    <p class="text-xs text-slate-400 mt-1">Jejak rekam akademis, pengerjaan proyek sistem digital, beserta bukti dokumentasi sertifikasi.</p>
-                </div>
+                <h1 class="text-3xl font-bold text-white mb-6">Experience & Certificates</h1>
                 <div class="grid grid-cols-1 gap-6" id="experience-list-container"></div>
             </section>
 
@@ -95,16 +87,8 @@
         </main>
     </div>
 
-    <footer class="w-full border-t border-[#1d291a] bg-[#0b0f09] py-6 px-6 mt-12">
-        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
-            <p class="text-xs text-slate-500">© 2026 UZIIFAUNAK. All rights reserved.</p>
-            <div class="flex items-center space-x-4">
-                <a href="https://discord.gg/97y4p32jWz" target="_blank" class="w-9 h-9 rounded-xl bg-[#161f14] border border-[#233220] flex items-center justify-center text-slate-400 hover:text-emerald-400 hover:border-emerald-500/30 hover:bg-emerald-950/20 transition-all duration-200"><i class="fa-brands fa-discord text-sm"></i></a>
-                <a href="https://www.tiktok.com/@uziifaunak" target="_blank" class="w-9 h-9 rounded-xl bg-[#161f14] border border-[#233220] flex items-center justify-center text-slate-400 hover:text-emerald-400 hover:border-emerald-500/30 hover:bg-emerald-950/20 transition-all duration-200"><i class="fa-brands fa-tiktok text-sm"></i></a>
-                <a href="https://www.linkedin.com/in/abhinayafauzi/" target="_blank" class="w-9 h-9 rounded-xl bg-[#161f14] border border-[#233220] flex items-center justify-center text-slate-400 hover:text-emerald-400 hover:border-emerald-500/30 hover:bg-emerald-950/20 transition-all duration-200"><i class="fa-brands fa-linkedin-in text-sm"></i></a>
-                <a href="https://www.instagram.com/uziifaunak/" target="_blank" class="w-9 h-9 rounded-xl bg-[#161f14] border border-[#233220] flex items-center justify-center text-slate-400 hover:text-emerald-400 hover:border-emerald-500/30 hover:bg-emerald-950/20 transition-all duration-200"><i class="fa-brands fa-instagram text-sm"></i></a>
-            </div>
-        </div>
+    <footer class="w-full border-t border-[#1d291a] bg-[#0b0f09] py-6 px-6 mt-12 text-center text-slate-500 text-xs">
+        © 2026 UZIIFAUNAK. All rights reserved.
     </footer>
 
     <script>
@@ -115,65 +99,66 @@
             projectId: "portofolio-uzi",
             storageBucket: "portofolio-uzi.firebasestorage.app",
             messagingSenderId: "190552716843",
-            appId: "1:190552716843:web:32d9c26f299867bfc19c6e",
-            measurementId: "G-0ZJTEGNXTW"
+            appId: "1:190552716843:web:32d9c26f299867bfc19c6e"
         };
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
-        function timeAgo(ts) {
-            if (!ts) return "";
-            const seconds = Math.floor((new Date() - ts) / 1000);
-            if (seconds < 60) return "Baru saja";
-            if (seconds < 3600) return Math.floor(seconds/60) + " menit lalu";
-            if (seconds < 86400) return Math.floor(seconds/3600) + " jam lalu";
-            return Math.floor(seconds/86400) + " hari lalu";
-        }
+
         function switchTab(t) {
             document.querySelectorAll('.tab-content').forEach(c => c.classList.add('hidden'));
             document.querySelectorAll('nav button').forEach(b => b.classList.remove('active-tab'));
             document.getElementById(`content-${t}`).classList.remove('hidden');
             document.getElementById(`tab-${t}`).classList.add('active-tab');
         }
+
         db.ref('home_custom/').on('value', snap => {
             const data = snap.val() || {};
-            document.getElementById('home-cnn-link').innerText = data.cnn_text || "Kunjungi Situs Resmi CNN Indonesia";
-            document.getElementById('home-cnn-link').href = data.cnn_link || "https://cnnindonesia.com";
-            document.getElementById('home-status-text').innerText = data.home_status || "Fokus mengembangkan portofolio.";
+            document.getElementById('home-cnn-link').innerText = data.cnn_text || "Kunjungi Berita";
+            document.getElementById('home-cnn-link').href = data.cnn_link || "#";
+            document.getElementById('home-status-text').innerText = data.home_status || "Fokus!";
         });
-        db.ref('profile/').on('value', snap => {
-            const data = snap.val() || { name: "UZI ABHINAYA", bio: "Student & Digital Creator." };
-            document.getElementById('status-name').innerText = data.name;
-            document.getElementById('status-bio').innerText = data.bio;
-        });
+
         db.ref('widgets/').on('value', snap => {
             const container = document.getElementById('widgets-container');
             container.innerHTML = '';
-            if(!snap.exists()) { container.innerHTML = '<p class="text-xs text-slate-500 italic col-span-full text-center">Belum ada aktivitas.</p>'; return; }
             snap.forEach(child => {
                 const w = child.val();
-                const timeLabel = timeAgo(w.timestamp);
-                let media = w.mediaUrl ? `<div class="mt-3 overflow-hidden rounded-xl bg-black aspect-video"><img src="${w.mediaUrl}" class="w-full h-full object-cover"></div>` : '';
-                container.innerHTML += `<div class="card-dark p-5 rounded-2xl flex flex-col justify-between shadow-xl"><div><div class="flex justify-between items-center mb-3"><span class="text-[10px] bg-emerald-500/10 text-emerald-400 font-bold px-2 py-0.5 rounded border border-emerald-500/20 uppercase">${w.type}</span><span class="text-[9px] text-slate-500 italic">${timeLabel}</span></div><p class="text-xs text-slate-300 leading-relaxed">"${w.content}"</p>${media}</div></div>`;
+                container.innerHTML += `<div class="card-dark p-5 rounded-2xl shadow-xl">
+                    <div class="flex justify-between mb-2">
+                        <span class="text-[10px] text-emerald-400 font-bold uppercase">${w.type}</span>
+                        <span class="text-[9px] text-slate-500">${w.timestamp || ''}</span>
+                    </div>
+                    <p class="text-xs text-slate-300">"${w.content}"</p>
+                    ${w.mediaUrl ? `<img src="${w.mediaUrl}" class="mt-3 rounded-lg w-full">` : ''}
+                </div>`;
             });
         });
+
         db.ref('experiences/').on('value', snap => {
             const container = document.getElementById('experience-list-container');
             container.innerHTML = '';
-            if(!snap.exists()) { container.innerHTML = '<p class="text-xs text-slate-500 italic text-center py-4">Belum ada data pengalaman.</p>'; return; }
             snap.forEach(child => {
                 const e = child.val();
-                let media = e.mediaUrl ? `<div class="mt-4 max-w-md rounded-xl overflow-hidden border border-[#2b3c27] bg-black aspect-video"><img src="${e.mediaUrl}" class="w-full h-full object-cover"></div>` : '';
-                container.innerHTML += `<div class="card-dark p-6 rounded-2xl flex flex-col md:flex-row gap-5 shadow-xl"><div class="w-12 h-12 bg-emerald-950/50 rounded-xl flex items-center justify-center text-emerald-400 text-xl flex-shrink-0 border border-emerald-900/30"><i class="fa-solid fa-award"></i></div><div class="w-full"><div class="flex justify-between items-start flex-wrap gap-2"><div><h3 class="text-base font-bold text-white tracking-wide uppercase">${e.title}</h3><span class="text-[11px] text-slate-400 font-medium inline-block mt-0.5"><i class="fa-regular fa-calendar-days mr-1.5 text-emerald-500"></i>${e.date || 'No Date'}</span></div><div class="bg-[#0b0f09] border border-emerald-950/60 px-3 py-1 rounded-lg text-amber-400 text-xs font-bold flex items-center gap-1"><i class="fa-solid fa-star text-[10px]"></i> ${e.stars}</div></div><p class="text-xs text-slate-400 mt-3 leading-relaxed">${e.summary}</p>${media}</div></div>`;
+                container.innerHTML += `<div class="card-dark p-6 rounded-2xl">
+                    <h3 class="font-bold text-white">${e.title}</h3>
+                    <p class="text-xs text-slate-400 mt-2">${e.summary}</p>
+                    <span class="text-[10px] text-emerald-600 font-bold block mt-3">Diterbitkan: ${e.timestamp || '-'}</span>
+                    ${e.mediaUrl ? `<img src="${e.mediaUrl}" class="mt-4 rounded-lg max-w-xs">` : ''}
+                </div>`;
             });
         });
+
         db.ref('videos/').on('value', snap => {
             const container = document.getElementById('video-grid-container');
             container.innerHTML = '';
-            if(!snap.exists()) { container.innerHTML = '<p class="text-xs text-slate-500 italic">Belum ada video.</p>'; return; }
             snap.forEach(child => {
                 const v = child.val();
-                if(v.privacy === 'private') return;
-                container.innerHTML += `<div class="card-dark rounded-xl overflow-hidden"><div class="aspect-video bg-black"><video src="${v.url}" controls class="w-full h-full object-cover"></video></div><div class="p-3 text-xs font-bold">${v.title}</div></div>`;
+                if(v.privacy !== 'public') return;
+                container.innerHTML += `<div class="card-dark rounded-xl p-2">
+                    <video src="${v.url}" controls class="w-full rounded"></video>
+                    <p class="text-xs font-bold mt-2">${v.title}</p>
+                    <span class="text-[9px] text-emerald-600">Update: ${v.timestamp || '-'}</span>
+                </div>`;
             });
         });
     </script>
