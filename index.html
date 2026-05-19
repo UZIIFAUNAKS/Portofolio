@@ -6,6 +6,7 @@
     <title>Portofolio UZIIFAUNAK</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
     <style>
@@ -21,15 +22,11 @@
         <nav class="bg-[#121910]/90 backdrop-blur-md sticky top-0 z-50 border-b border-[#233220] px-6 py-4 flex flex-col items-center gap-4">
             <div class="flex w-full justify-between items-center max-w-7xl">
                 <span class="font-extrabold text-xl text-emerald-400 tracking-wider">UZIIFAUNAK</span>
-                <div class="flex gap-4 text-slate-400 text-sm">
-                    <a href="#" class="hover:text-emerald-400"><i class="fa-brands fa-discord"></i></a>
-                    <a href="#" class="hover:text-emerald-400"><i class="fa-brands fa-instagram"></i></a>
-                    <a href="#" class="hover:text-emerald-400"><i class="fa-brands fa-linkedin"></i></a>
-                    <a href="#" class="hover:text-emerald-400"><i class="fa-brands fa-tiktok"></i></a>
-                    <a href="#" class="hover:text-emerald-400"><i class="fa-brands fa-canva"></i></a>
-                    <a href="login.html" class="bg-emerald-500 hover:bg-emerald-400 text-neutral-950 text-[10px] font-bold px-3 py-1.5 rounded-lg transition ml-2">OWNER</a>
-                </div>
+                <a href="login.html" class="bg-emerald-500 hover:bg-emerald-400 text-neutral-950 text-[10px] font-bold px-3 py-1.5 rounded-lg transition flex items-center gap-1">
+                    <i class="fa-solid fa-right-to-bracket"></i> OWNER
+                </a>
             </div>
+            
             <div class="flex flex-wrap justify-center gap-1.5 bg-[#0b0f09] p-1 rounded-xl border border-[#1d291a] font-medium text-[11px] w-full max-w-xl">
                 <button onclick="switchTab('home')" id="tab-home" class="px-4 py-2 rounded-lg text-slate-400 hover:text-white transition active-tab">Beranda</button>
                 <button onclick="switchTab('status')" id="tab-status" class="px-4 py-2 rounded-lg text-slate-400 hover:text-white transition">Status</button>
@@ -43,16 +40,23 @@
                 <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center pt-4">
                     <div class="lg:col-span-7 space-y-6">
                         <span class="text-xs font-bold uppercase tracking-widest text-emerald-400 bg-emerald-950/60 border border-emerald-900/60 px-3 py-1 rounded-md">Portofolio ABHINAYA FAUZI</span>
-                        <h1 class="text-4xl lg:text-5xl font-extrabold tracking-tight text-white leading-tight">Welcome to My Workspace</h1>
-                        <p class="text-sm text-slate-400 max-w-xl leading-relaxed">Terimakasih sudah mengunjungi website ini.</p>
+                        <h1 class="text-4xl lg:text-5xl font-extrabold tracking-tight text-white leading-tight">Welcome to My Workspace,<br><span class="text-emerald-400">glad to have you here!</span></h1>
+                        <p class="text-sm text-slate-400 max-w-xl leading-relaxed">Terimakasih sudah mengunjungi website ini. Silakan untuk menjelajahi seluruh portofolio dan proyek sistem digital yang sudah saya buat.</p>
+                        
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
-                            <div class="card-dark p-4 rounded-xl">
-                                <span class="text-[10px] font-bold text-red-400 uppercase">CNN News Update</span>
-                                <a id="home-cnn-link" href="#" target="_blank" class="block text-xs text-slate-200 hover:text-emerald-400 font-semibold mt-1">Loading...</a>
+                            <div class="card-dark p-4 rounded-xl flex items-start gap-3">
+                                <div class="text-red-500 text-lg pt-0.5"><i class="fa-solid fa-newspaper"></i></div>
+                                <div>
+                                    <span class="text-[10px] font-bold text-red-400 uppercase tracking-wider block">CNN News Update</span>
+                                    <a id="home-cnn-link" href="#" target="_blank" class="text-xs text-slate-200 hover:text-emerald-400 font-semibold line-clamp-2 mt-1 transition">Loading...</a>
+                                </div>
                             </div>
-                            <div class="card-dark p-4 rounded-xl">
-                                <span class="text-[10px] font-bold text-amber-400 uppercase">Current Status</span>
-                                <p id="home-status-text" class="text-xs text-slate-300 mt-1">Loading...</p>
+                            <div class="card-dark p-4 rounded-xl flex items-start gap-3">
+                                <div class="text-amber-400 text-lg pt-0.5"><i class="fa-solid fa-circle-dot animate-pulse"></i></div>
+                                <div>
+                                    <span class="text-[10px] font-bold text-amber-400 uppercase tracking-wider block">Current Status</span>
+                                    <p id="home-status-text" class="text-xs text-slate-300 mt-1 font-medium">Loading...</p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -77,7 +81,10 @@
             </section>
 
             <section id="content-pengalaman" class="tab-content hidden">
-                <h1 class="text-3xl font-bold text-white mb-6">Experience</h1>
+                <div class="mb-6">
+                    <h1 class="text-3xl font-bold text-white tracking-tight">Experience & Certificates</h1>
+                    <p class="text-xs text-slate-400 mt-1">Jejak rekam akademis, pengerjaan proyek sistem digital, beserta bukti dokumentasi sertifikasi.</p>
+                </div>
                 <div class="grid grid-cols-1 gap-6" id="experience-list-container"></div>
             </section>
 
@@ -87,6 +94,12 @@
         </main>
     </div>
 
+    <footer class="w-full border-t border-[#1d291a] bg-[#0b0f09] py-6 px-6 mt-12">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
+            <p class="text-xs text-slate-500">© 2026 UZIIFAUNAK. All rights reserved.</p>
+        </div>
+    </footer>
+
     <script>
         const firebaseConfig = {
             apiKey: "AIzaSyDZ7xMFlPZO0BjjHXKVpY3-yaoR-wUAjhk",
@@ -95,21 +108,19 @@
             projectId: "portofolio-uzi",
             storageBucket: "portofolio-uzi.firebasestorage.app",
             messagingSenderId: "190552716843",
-            appId: "1:190552716843:web:32d9c26f299867bfc19c6e"
+            appId: "1:190552716843:web:32d9c26f299867bfc19c6e",
+            measurementId: "G-0ZJTEGNXTW"
         };
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
 
-        function timeAgo(dateString) {
-            if (!dateString) return "";
-            const [d, m, y] = dateString.split('/');
-            const date = new Date(y, m - 1, d);
-            const now = new Date();
-            const diff = Math.floor((now - date) / (1000 * 60));
-            if (diff < 1) return "Baru saja";
-            if (diff < 60) return diff + " menit yang lalu";
-            if (diff < 1440) return Math.floor(diff / 60) + " jam yang lalu";
-            return Math.floor(diff / 1440) + " hari yang lalu";
+        function timeAgo(ts) {
+            if (!ts) return "";
+            const seconds = Math.floor((new Date() - ts) / 1000);
+            if (seconds < 60) return "Baru saja";
+            if (seconds < 3600) return Math.floor(seconds/60) + " menit lalu";
+            if (seconds < 86400) return Math.floor(seconds/3600) + " jam lalu";
+            return Math.floor(seconds/86400) + " hari lalu";
         }
 
         function switchTab(t) {
@@ -119,21 +130,19 @@
             document.getElementById(`tab-${t}`).classList.add('active-tab');
         }
 
-        // Fetch Profil
-        db.ref('profile/').on('value', snap => {
-            const p = snap.val();
-            if (p) {
-                document.getElementById('status-name').innerText = p.name;
-                document.getElementById('status-bio').innerText = p.bio;
-            }
-        });
-
         // Fetch Home
         db.ref('home_custom/').on('value', snap => {
             const data = snap.val() || {};
             document.getElementById('home-cnn-link').innerText = data.cnn_text || "Kunjungi Berita";
             document.getElementById('home-cnn-link').href = data.cnn_link || "#";
             document.getElementById('home-status-text').innerText = data.home_status || "Fokus!";
+        });
+
+        // Fetch Profile
+        db.ref('profile/').on('value', snap => {
+            const data = snap.val() || { name: "UZI ABHINAYA", bio: "Student & Digital Creator." };
+            document.getElementById('status-name').innerText = data.name;
+            document.getElementById('status-bio').innerText = data.bio;
         });
 
         // Fetch Widgets
@@ -143,9 +152,9 @@
             snap.forEach(child => {
                 const w = child.val();
                 container.innerHTML += `<div class="card-dark p-5 rounded-2xl">
-                    <span class="text-[10px] text-emerald-400 font-bold">${w.type}</span>
-                    <p class="text-xs text-slate-300 mt-2">"${w.content}"</p>
-                    <span class="text-[9px] text-slate-500 block mt-2">${timeAgo(w.timestamp)}</span>
+                    <span class="text-[10px] text-emerald-400 font-bold uppercase">${w.type}</span>
+                    <p class="text-xs text-slate-300 mt-2 leading-relaxed">"${w.content}"</p>
+                    <span class="text-[9px] text-slate-500 block mt-3">${timeAgo(w.timestamp)}</span>
                 </div>`;
             });
         });
@@ -159,7 +168,6 @@
                 container.innerHTML += `<div class="card-dark p-6 rounded-2xl">
                     <h3 class="font-bold text-white">${e.title}</h3>
                     <p class="text-xs text-slate-400 mt-2">${e.summary}</p>
-                    <span class="text-[10px] text-emerald-600 font-bold mt-3 block">${timeAgo(e.timestamp)}</span>
                 </div>`;
             });
         });
@@ -170,13 +178,10 @@
             container.innerHTML = '';
             snap.forEach(child => {
                 const v = child.val();
-                if(v.privacy === 'public') {
-                    container.innerHTML += `<div class="card-dark rounded-xl p-2">
-                        <video src="${v.url}" controls class="w-full rounded"></video>
-                        <p class="text-xs font-bold mt-2">${v.title}</p>
-                        <span class="text-[9px] text-emerald-600">${timeAgo(v.timestamp)}</span>
-                    </div>`;
-                }
+                container.innerHTML += `<div class="card-dark rounded-xl overflow-hidden p-2">
+                    <video src="${v.url}" controls class="w-full rounded"></video>
+                    <p class="text-xs font-bold mt-2">${v.title}</p>
+                </div>`;
             });
         });
     </script>
