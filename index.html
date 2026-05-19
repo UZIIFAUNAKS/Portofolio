@@ -21,9 +21,12 @@
         <nav class="bg-[#121910]/90 backdrop-blur-md sticky top-0 z-50 border-b border-[#233220] px-6 py-4 flex flex-col items-center gap-4">
             <div class="flex w-full justify-between items-center max-w-7xl">
                 <span class="font-extrabold text-xl text-emerald-400 tracking-wider">UZIIFAUNAK</span>
-                <div class="flex gap-4 text-slate-400">
+                <div class="flex gap-4 text-slate-400 text-sm">
                     <a href="#" class="hover:text-emerald-400"><i class="fa-brands fa-discord"></i></a>
                     <a href="#" class="hover:text-emerald-400"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" class="hover:text-emerald-400"><i class="fa-brands fa-linkedin"></i></a>
+                    <a href="#" class="hover:text-emerald-400"><i class="fa-brands fa-tiktok"></i></a>
+                    <a href="#" class="hover:text-emerald-400"><i class="fa-brands fa-canva"></i></a>
                     <a href="login.html" class="bg-emerald-500 hover:bg-emerald-400 text-neutral-950 text-[10px] font-bold px-3 py-1.5 rounded-lg transition ml-2">OWNER</a>
                 </div>
             </div>
@@ -59,22 +62,10 @@
                             </div>
                         </div>
                     </div>
-                    <div class="lg:col-span-5 flex justify-center">
-                        <div class="w-80 h-[380px] bg-emerald-950 rounded-t-full relative overflow-hidden shadow-2xl border-4 border-[#233220]">
-                            <img src="https://cdn.discordapp.com/attachments/1142606456558977024/1506000533188644864/WhatsApp_Image_2026-05-19_at_01.23.21.jpeg?ex=6a0cabcb&is=6a0b5a4b&hm=6bc369302caffa0b6b52f6434dcc2e9faa45b8168c352df6420e1fd3f95b1f37" class="w-full h-full object-cover grayscale contrast-125">
-                        </div>
-                    </div>
                 </div>
             </section>
 
             <section id="content-status" class="tab-content hidden">
-                <div class="card-dark p-6 rounded-2xl mb-8 flex items-center gap-4">
-                    <img src="https://cdn.discordapp.com/attachments/1142606456558977024/1506000532626477096/WhatsApp_Image_2026-05-19_at_01.23.53.jpeg?ex=6a0cabcb&is=6a0b5a4b&hm=c61e055f1e5676de7d8b1f33c1a38a6d0f94ce78a0082155159f0754e79854b8" class="w-16 h-16 rounded-full object-cover border-2 border-emerald-400">
-                    <div>
-                        <h2 id="status-name" class="text-xl font-bold text-white">UZI ABHINAYA</h2>
-                        <p id="status-bio" class="text-sm text-slate-400 mt-1">Student & Digital Creator.</p>
-                    </div>
-                </div>
                 <div id="widgets-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
             </section>
 
@@ -106,6 +97,18 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
 
+        function timeAgo(dateString) {
+            if (!dateString) return "";
+            const [d, m, y] = dateString.split('/');
+            const date = new Date(y, m - 1, d);
+            const now = new Date();
+            const diff = Math.floor((now - date) / (1000 * 60)); 
+            if (diff < 1) return "Baru saja";
+            if (diff < 60) return diff + " menit yang lalu";
+            if (diff < 1440) return Math.floor(diff / 60) + " jam yang lalu";
+            return Math.floor(diff / 1440) + " hari yang lalu";
+        }
+
         function switchTab(t) {
             document.querySelectorAll('.tab-content').forEach(c => c.classList.add('hidden'));
             document.querySelectorAll('nav button').forEach(b => b.classList.remove('active-tab'));
@@ -128,7 +131,7 @@
                 container.innerHTML += `<div class="card-dark p-5 rounded-2xl shadow-xl">
                     <div class="flex justify-between mb-2">
                         <span class="text-[10px] text-emerald-400 font-bold uppercase">${w.type}</span>
-                        <span class="text-[9px] text-slate-500">${w.timestamp || ''}</span>
+                        <span class="text-[9px] text-slate-500">${timeAgo(w.timestamp)}</span>
                     </div>
                     <p class="text-xs text-slate-300">"${w.content}"</p>
                     ${w.mediaUrl ? `<img src="${w.mediaUrl}" class="mt-3 rounded-lg w-full">` : ''}
@@ -144,8 +147,7 @@
                 container.innerHTML += `<div class="card-dark p-6 rounded-2xl">
                     <h3 class="font-bold text-white">${e.title}</h3>
                     <p class="text-xs text-slate-400 mt-2">${e.summary}</p>
-                    <span class="text-[10px] text-emerald-600 font-bold block mt-3">Diterbitkan: ${e.timestamp || '-'}</span>
-                    ${e.mediaUrl ? `<img src="${e.mediaUrl}" class="mt-4 rounded-lg max-w-xs">` : ''}
+                    <span class="text-[10px] text-emerald-600 font-bold block mt-3">Diterbitkan: ${timeAgo(e.timestamp)}</span>
                 </div>`;
             });
         });
@@ -159,7 +161,7 @@
                 container.innerHTML += `<div class="card-dark rounded-xl p-2">
                     <video src="${v.url}" controls class="w-full rounded"></video>
                     <p class="text-xs font-bold mt-2">${v.title}</p>
-                    <span class="text-[9px] text-emerald-600">Update: ${v.timestamp || '-'}</span>
+                    <span class="text-[9px] text-emerald-600">Update: ${timeAgo(v.timestamp)}</span>
                 </div>`;
             });
         });
