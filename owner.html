@@ -51,7 +51,8 @@
                     <button onclick="saveHomeStatus()" class="bg-amber-500 text-neutral-950 font-bold text-xs px-4 py-1.5 rounded">Update Status</button>
                 </div>
             </div>
-            <!-- Status Sub (LENGKAP WIDGET) -->
+            
+            <!-- Status Sub (LENGKAP: Jenis, Keterangan, File Media) -->
             <div id="sub-console-status" class="sub-console hidden grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div class="card-dark p-4 space-y-2">
                     <input type="text" id="edit-name" placeholder="Nama Profil..." class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2 rounded text-white">
@@ -64,11 +65,13 @@
                         <option value="Lagu Online">Lagu Online</option>
                         <option value="Foto Postingan">Foto Postingan</option>
                     </select>
+                    <input type="text" id="widget-sub" placeholder="Sumber (Me/Spotify/Drive)..." class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2 rounded text-white">
                     <input type="text" id="widget-content" placeholder="Konten Deskripsi..." class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2 rounded text-white">
-                    <input type="text" id="widget-media-url" placeholder="Direct Link Gambar" class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2 rounded text-white">
+                    <input type="text" id="widget-media-url" placeholder="Direct Link File/Gambar (Drive/Sosmed)" class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2 rounded text-white">
                     <button onclick="pushWidget()" class="w-full bg-emerald-500 text-neutral-950 font-bold text-xs py-2 rounded">Push Widget</button>
                 </div>
             </div>
+
             <!-- Experience Sub (LENGKAP) -->
             <div id="sub-console-pengalaman" class="sub-console hidden card-dark p-4 space-y-3 max-w-2xl">
                 <span class="text-[10px] font-bold text-emerald-400 uppercase block">Tambah Pengalaman & Sertifikat</span>
@@ -83,6 +86,7 @@
                 </div>
                 <button onclick="pushExperience()" class="bg-emerald-500 text-neutral-950 font-bold text-xs px-5 py-2 rounded-xl">Inject Exp Mod</button>
             </div>
+
             <!-- Video Sub -->
             <div id="sub-console-video" class="sub-console hidden card-dark p-4 space-y-2 max-w-xl">
                 <input type="text" id="vid-title" placeholder="Judul Video" class="w-full bg-[#0b0f09] border border-emerald-900 text-xs p-2 rounded text-white">
@@ -110,6 +114,7 @@
         };
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
+
         function switchTab(t) {
             document.querySelectorAll('.tab-content').forEach(c => c.classList.add('hidden'));
             document.querySelectorAll('nav button').forEach(b => b.classList.remove('active-tab'));
@@ -120,9 +125,11 @@
         }
         function handleLogout() { localStorage.removeItem('uzi_session_active'); window.location.href = 'index.html'; }
         
+        // FUNGSI PUSH LENGKAP
         function pushWidget() {
             db.ref('widgets/').push({
                 type: document.getElementById('widget-type').value,
+                sub: document.getElementById('widget-sub').value,
                 content: document.getElementById('widget-content').value,
                 mediaUrl: document.getElementById('widget-media-url').value,
                 timestamp: Date.now()
@@ -147,6 +154,7 @@
             });
             alert('Sinyal Video Online!');
         }
+        
         function saveCnnNews() { db.ref('home_custom/').update({ cnn_text: document.getElementById('edit-cnn-text').value, cnn_link: document.getElementById('edit-cnn-link').value }); alert('Berita Diperbarui!'); }
         function saveHomeStatus() { db.ref('home_custom/').update({ home_status: document.getElementById('edit-home-status').value }); alert('Status Diperbarui!'); }
         function saveProfile() { db.ref('profile/').set({ name: document.getElementById('edit-name').value, bio: document.getElementById('edit-bio').value }); alert('Profil Diperbarui!'); }
