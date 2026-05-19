@@ -10,7 +10,7 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght=300;400;500;600;700&display=swap');
         body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #0f140d; }
         .card-dark { background-color: #161f14; border: 1px solid #233220; }
         .active-tab { background-color: #233220; color: #4ade80; border-bottom: 2px solid #4ade80; }
@@ -18,57 +18,44 @@
 </head>
 <body class="text-slate-200 min-h-screen flex flex-col">
 
-    <header class="w-full bg-[#121910] border-b border-[#233220] py-8 px-4 relative">
-        <div class="max-w-4xl mx-auto flex flex-col items-center text-center">
-            <h1 class="text-3xl font-extrabold text-emerald-400 tracking-wider mb-2">UZIIFAUNAK</h1>
-            <p id="bio-text" class="text-slate-400 text-sm max-w-md">Loading bio...</p>
-            
-            <div class="flex gap-6 mt-6 items-center">
-                <a href="#" target="_blank" class="text-4xl text-[#5865F2] hover:scale-110 hover:-translate-y-1 transition-all duration-300" title="Discord"><i class="fa-brands fa-discord"></i></a>
-                <a href="#" target="_blank" class="text-4xl text-[#E1306C] hover:scale-110 hover:-translate-y-1 transition-all duration-300" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
-                <a href="#" target="_blank" class="text-4xl text-[#0A66C2] hover:scale-110 hover:-translate-y-1 transition-all duration-300" title="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
-                <a href="#" target="_blank" class="text-4xl text-white hover:scale-110 hover:-translate-y-1 transition-all duration-300" title="TikTok"><i class="fa-brands fa-tiktok"></i></a>
-                <a href="#" target="_blank" class="w-10 h-10 hover:scale-110 hover:-translate-y-1 transition-all duration-300 rounded overflow-hidden flex items-center justify-center bg-white/90 p-1" title="Canva">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/c/cb/Canva_Logo.png" alt="Canva" class="w-full h-full object-contain">
-                </a>
-            </div>
+    <nav class="bg-[#121910]/90 backdrop-blur-md border-b border-[#233220] px-4 py-4 sticky top-0 z-50 flex justify-between items-center">
+        <span class="font-extrabold text-lg text-emerald-400 tracking-wider">UZIIFAUNAK</span>
+        <a href="login.html" class="bg-emerald-900/30 text-emerald-400 border border-emerald-900/50 text-[10px] font-bold px-3 py-1.5 rounded-lg hover:bg-emerald-500 hover:text-white transition">OWNER LOGIN</a>
+    </nav>
+
+    <header class="max-w-4xl mx-auto px-4 py-10 text-center">
+        <div class="w-24 h-24 mx-auto bg-emerald-900 rounded-full mb-4 border-2 border-emerald-500 overflow-hidden flex items-center justify-center">
+            <i class="fa-solid fa-user-astronaut text-4xl text-emerald-400"></i>
+        </div>
+        <h1 id="profile-name" class="text-2xl font-bold text-white">Memuat...</h1>
+        <p id="profile-bio" class="text-sm text-slate-400 mt-2 max-w-lg mx-auto">Memuat...</p>
+        
+        <div class="flex flex-wrap justify-center items-center gap-6 mt-6">
+            <a href="#" target="_blank" class="text-4xl text-[#5865F2] hover:scale-110 transition drop-shadow-[0_0_8px_rgba(88,101,242,0.5)]"><i class="fa-brands fa-discord"></i></a>
+            <a href="#" target="_blank" class="text-4xl text-[#E1306C] hover:scale-110 transition drop-shadow-[0_0_8px_rgba(225,48,108,0.5)]"><i class="fa-brands fa-instagram"></i></a>
+            <a href="#" target="_blank" class="text-4xl text-[#0077B5] hover:scale-110 transition drop-shadow-[0_0_8px_rgba(0,119,181,0.5)]"><i class="fa-brands fa-linkedin"></i></a>
+            <a href="#" target="_blank" class="text-4xl text-white hover:scale-110 transition drop-shadow-[0_0_8px_rgba(255,255,255,0.5)]"><i class="fa-brands fa-tiktok"></i></a>
+            <a href="#" target="_blank" class="hover:scale-110 transition drop-shadow-[0_0_8px_rgba(0,196,204,0.5)]">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/0/08/Canva_icon_2021.svg" alt="Canva" class="w-9 h-9">
+            </a>
         </div>
     </header>
 
-    <nav class="flex justify-center gap-2 py-4 bg-[#0b0f09] border-b border-[#1d291a] sticky top-0 z-50 text-xs sm:text-sm px-2">
-        <button onclick="switchTab('home')" id="tab-home" class="px-4 py-2 rounded-lg text-slate-400 hover:text-white transition active-tab font-semibold">Status Harian</button>
-        <button onclick="switchTab('pengalaman')" id="tab-pengalaman" class="px-4 py-2 rounded-lg text-slate-400 hover:text-white transition font-semibold">Pengalaman & Sertifikat</button>
-        <button onclick="switchTab('video')" id="tab-video" class="px-4 py-2 rounded-lg text-slate-400 hover:text-white transition font-semibold">Video Random</button>
-    </nav>
+    <main class="max-w-7xl w-full mx-auto px-4 py-8 flex-1">
+        <div class="flex justify-center gap-2 mb-8 text-[11px] font-bold uppercase tracking-wide">
+            <button onclick="switchTab('status')" id="tab-status" class="px-5 py-2.5 rounded-xl active-tab transition">Status Live</button>
+            <button onclick="switchTab('pengalaman')" id="tab-pengalaman" class="px-5 py-2.5 rounded-xl text-slate-400 hover:text-white transition">Pengalaman</button>
+            <button onclick="switchTab('video')" id="tab-video" class="px-5 py-2.5 rounded-xl text-slate-400 hover:text-white transition">Video</button>
+        </div>
 
-    <main class="max-w-5xl mx-auto px-4 py-8 w-full flex-1">
+        <section id="content-status" class="tab-content grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></section>
         
-        <section id="content-home" class="tab-content">
-            <h2 class="text-xl font-bold text-white mb-6 border-l-4 border-emerald-500 pl-3">Aktivitas Terkini</h2>
-            <div id="widgets-container" class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                </div>
-        </section>
+        <section id="content-pengalaman" class="tab-content hidden grid grid-cols-1 md:grid-cols-2 gap-6"></section>
 
-        <section id="content-pengalaman" class="tab-content hidden">
-            <h2 class="text-xl font-bold text-white mb-6 border-l-4 border-emerald-500 pl-3">Portofolio & Sertifikat</h2>
-            <div id="experience-list-container" class="grid grid-cols-1 gap-6">
-                </div>
-        </section>
-
-        <section id="content-video" class="tab-content hidden">
-            <h2 class="text-xl font-bold text-white mb-6 border-l-4 border-emerald-500 pl-3">Galeri Video</h2>
-            <div id="video-grid-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                </div>
-        </section>
-
+        <section id="content-video" class="tab-content hidden grid grid-cols-1 md:grid-cols-3 gap-6"></section>
     </main>
 
-    <footer class="text-center py-6 border-t border-[#233220] mt-auto">
-        <p class="text-xs text-slate-500">&copy; 2026 UZIIFAUNAK Workspace. All Rights Reserved.</p>
-    </footer>
-
     <script>
-        // Inisialisasi Firebase
         const firebaseConfig = {
             apiKey: "AIzaSyDZ7xMFlPZO0BjjHXKVpY3-yaoR-wUAjhk",
             authDomain: "portofolio-uzi.firebaseapp.com",
@@ -82,140 +69,106 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
 
-        // Fungsi Waktu (Time Ago)
-        function timeAgo(ms) {
-            if (!ms) return 'Waktu tidak diketahui';
-            const seconds = Math.floor((new Date() - ms) / 1000);
-            let interval = seconds / 31536000;
-            if (interval > 1) return Math.floor(interval) + " tahun yang lalu";
-            interval = seconds / 2592000;
-            if (interval > 1) return Math.floor(interval) + " bulan yang lalu";
-            interval = seconds / 86400;
-            if (interval > 1) return Math.floor(interval) + " hari yang lalu";
-            interval = seconds / 3600;
-            if (interval > 1) return Math.floor(interval) + " jam yang lalu";
-            interval = seconds / 60;
-            if (interval > 1) return Math.floor(interval) + " menit yang lalu";
-            return Math.floor(seconds) + " detik yang lalu";
-        }
-
-        // Navigasi Tab
         function switchTab(t) {
             document.querySelectorAll('.tab-content').forEach(c => c.classList.add('hidden'));
-            document.querySelectorAll('nav button').forEach(b => b.classList.remove('active-tab', 'text-white'));
+            document.querySelectorAll('main button').forEach(b => b.classList.remove('active-tab'));
             document.getElementById(`content-${t}`).classList.remove('hidden');
-            document.getElementById(`tab-${t}`).classList.add('active-tab', 'text-white');
+            document.getElementById(`tab-${t}`).classList.add('active-tab', 'text-emerald-400');
+            document.getElementById(`tab-${t}`).classList.remove('text-slate-400');
         }
 
-        // Fetch Data Profile
+        function timeAgo(ms) {
+            if(!ms) return '';
+            const sec = Math.floor((new Date() - ms) / 1000);
+            if (sec < 60) return sec + ' detik lalu';
+            if (sec < 3600) return Math.floor(sec / 60) + ' menit lalu';
+            if (sec < 86400) return Math.floor(sec / 3600) + ' jam lalu';
+            return Math.floor(sec / 86400) + ' hari lalu';
+        }
+
         db.ref('profile/').on('value', snap => {
-            const data = snap.val();
-            if(data && data.bio) document.getElementById('bio-text').innerText = data.bio;
+            const data = snap.val() || {};
+            document.getElementById('profile-name').innerText = data.name || 'UZIIFAUNAK';
+            document.getElementById('profile-bio').innerText = data.bio || 'Bio belum diatur.';
         });
 
-        // Fetch Data Status (Widgets)
+        // TAMBAHAN: Render Status Update (Disesuaikan dengan field baru)
         db.ref('widgets/').on('value', snap => {
-            const container = document.getElementById('widgets-container');
+            const container = document.getElementById('content-status');
             container.innerHTML = '';
-            if(!snap.exists()) { container.innerHTML = '<p class="text-xs text-slate-500 italic">Belum ada status.</p>'; return; }
-            
-            // Reverse data agar yang terbaru di atas
-            const widgets = [];
-            snap.forEach(child => widgets.unshift(child.val()));
-
-            widgets.forEach(w => {
-                let mediaHtml = '';
-                if(w.media) {
-                    if(w.media.match(/\.(mp4|webm|ogg)$/i)) {
-                        mediaHtml = `<video src="${w.media}" controls class="w-full mt-3 rounded-lg border border-[#233220]"></video>`;
+            let items = [];
+            snap.forEach(child => items.push(child.val()));
+            items.reverse().forEach(w => {
+                let fileHtml = '';
+                if(w.file) {
+                    if(w.file.match(/\.(mp4|webm|ogg)$/i)) {
+                        fileHtml = `<video src="${w.file}" controls class="w-full mt-3 rounded-lg border border-emerald-900/40"></video>`;
                     } else {
-                        mediaHtml = `<img src="${w.media}" alt="Media lampiran" class="w-full mt-3 rounded-lg border border-[#233220] object-cover max-h-64">`;
+                        fileHtml = `<img src="${w.file}" class="w-full mt-3 rounded-lg border border-emerald-900/40" alt="File">`;
                     }
                 }
-
+                
                 container.innerHTML += `
                 <div class="card-dark p-5 rounded-2xl flex flex-col justify-between">
                     <div>
-                        <div class="flex justify-between items-start border-b border-[#233220] pb-2 mb-3">
-                            <div>
-                                <span class="bg-emerald-900/30 text-emerald-400 text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">${w.type || 'STATUS'}</span>
-                                <p class="text-xs text-slate-400 mt-1 font-semibold"><i class="fa-solid fa-user-pen mr-1"></i> ${w.sender || 'Anonymous'}</p>
-                            </div>
-                            <span class="text-[10px] text-slate-500 bg-[#0b0f09] px-2 py-1 rounded shadow"><i class="fa-regular fa-clock mr-1"></i> ${timeAgo(w.timestamp)}</span>
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="text-[10px] bg-emerald-900/40 text-emerald-400 font-bold px-2 py-1 rounded uppercase tracking-wider">${w.type || 'STATUS'}</span>
+                            <span class="text-[10px] text-slate-400"><i class="fa-solid fa-user-pen mr-1"></i> ${w.sender || 'Admin'}</span>
                         </div>
-                        <h3 class="text-sm font-bold text-white mb-1">${w.short_note || ''}</h3>
-                        <p class="text-xs text-slate-300 leading-relaxed whitespace-pre-wrap">${w.long_note || ''}</p>
-                        ${mediaHtml}
+                        ${w.short_note ? `<h3 class="font-bold text-white text-sm mb-1">${w.short_note}</h3>` : ''}
+                        <p class="text-xs text-slate-300 leading-relaxed">${w.long_note || w.content || ''}</p>
+                        ${fileHtml}
                     </div>
+                    <span class="text-[9px] text-slate-500 block mt-4 border-t border-emerald-900/30 pt-3"><i class="fa-regular fa-clock mr-1"></i> ${timeAgo(w.timestamp)}</span>
                 </div>`;
             });
         });
 
-        // Fetch Data Pengalaman
+        // TAMBAHAN: Render Pengalaman Update (Sesuai field baru & Timestamp)
         db.ref('experiences/').on('value', snap => {
-            const container = document.getElementById('experience-list-container');
+            const container = document.getElementById('content-pengalaman');
             container.innerHTML = '';
-            if(!snap.exists()) { container.innerHTML = '<p class="text-xs text-slate-500 italic">Belum ada pengalaman.</p>'; return; }
-            
-            const exps = [];
-            snap.forEach(child => exps.unshift(child.val()));
-
-            exps.forEach(e => {
-                let imgHtml = e.img ? `<img src="${e.img}" alt="Sertifikat" class="mt-4 w-full md:w-48 h-auto object-cover rounded-xl border border-emerald-900/50">` : '';
-                
-                // Bintang
-                let starsHtml = '';
-                const starCount = parseInt(e.stars) || 0;
-                for(let i=0; i<5; i++) {
-                    starsHtml += `<i class="fa-solid fa-star ${i < starCount ? 'text-amber-400' : 'text-slate-600'} text-xs"></i>`;
-                }
-
+            let items = [];
+            snap.forEach(child => items.push(child.val()));
+            items.reverse().forEach(e => {
+                let imgHtml = e.img ? `<img src="${e.img}" class="w-full mt-4 rounded-xl border border-emerald-900/50" alt="Sertifikat">` : '';
                 container.innerHTML += `
-                <div class="card-dark p-5 rounded-2xl">
-                    <div class="flex flex-col md:flex-row md:justify-between md:items-start gap-4">
-                        <div class="flex-1">
-                            <div class="flex items-center gap-3 flex-wrap mb-2">
-                                <h3 class="text-lg font-bold text-white uppercase">${e.title}</h3>
-                                <div class="flex bg-black/40 px-2 py-1 rounded-lg border border-yellow-900/30 gap-1">${starsHtml}</div>
-                            </div>
-                            <span class="text-[11px] text-emerald-400 font-medium inline-block bg-emerald-900/20 px-2 py-1 rounded mb-3">
-                                <i class="fa-regular fa-calendar-days mr-1.5"></i> ${e.start_date || '?'} - ${e.end_date || 'Sekarang'}
-                            </span>
-                            <p class="text-sm text-slate-300 leading-relaxed whitespace-pre-wrap">${e.summary}</p>
-                            <div class="mt-4 pt-3 border-t border-[#233220] flex items-center text-[10px] text-slate-500">
-                                <i class="fa-regular fa-clock mr-1.5"></i> Diupload ${timeAgo(e.timestamp)}
-                            </div>
+                <div class="card-dark p-6 rounded-2xl relative">
+                    <div class="flex justify-between items-start gap-4">
+                        <div>
+                            <h3 class="font-bold text-white text-base">${e.title || 'Tanpa Judul'}</h3>
+                            <p class="text-[11px] text-emerald-400 mt-1 font-medium"><i class="fa-regular fa-calendar-days mr-1.5"></i> ${e.date || 'Tanggal tidak diatur'}</p>
                         </div>
-                        ${imgHtml}
+                        <div class="bg-[#0b0f09] border border-emerald-950/60 px-3 py-1 rounded-lg text-amber-400 text-xs font-bold flex items-center gap-1 shrink-0">
+                            <i class="fa-solid fa-star text-[10px]"></i> ${e.stars || '0'}
+                        </div>
+                    </div>
+                    <p class="text-xs text-slate-400 mt-4 leading-relaxed">${e.summary || ''}</p>
+                    ${imgHtml}
+                    <div class="mt-4 pt-3 border-t border-emerald-900/30 text-[9px] text-slate-500">
+                        <i class="fa-regular fa-clock mr-1"></i> Ditambahkan ${timeAgo(e.timestamp)}
                     </div>
                 </div>`;
             });
         });
 
-        // Fetch Data Video
+        // TAMBAHAN: Render Video dengan Timestamp
         db.ref('videos/').on('value', snap => {
-            const container = document.getElementById('video-grid-container');
+            const container = document.getElementById('content-video');
             container.innerHTML = '';
-            if(!snap.exists()) { container.innerHTML = '<p class="text-xs text-slate-500 italic">Belum ada video.</p>'; return; }
-            
-            const vids = [];
-            snap.forEach(child => vids.unshift(child.val()));
-
-            vids.forEach(v => {
+            let items = [];
+            snap.forEach(child => items.push(child.val()));
+            items.reverse().forEach(v => {
                 container.innerHTML += `
-                <div class="card-dark p-3 rounded-2xl overflow-hidden flex flex-col justify-between">
-                    <div>
-                        <video src="${v.url}" controls class="w-full rounded-xl bg-black aspect-video object-cover"></video>
-                        <h3 class="text-sm font-bold text-white mt-3 px-1">${v.title}</h3>
-                    </div>
-                    <div class="mt-3 px-1 flex items-center text-[10px] text-slate-500">
-                        <i class="fa-regular fa-clock mr-1.5"></i> ${timeAgo(v.timestamp)}
-                    </div>
+                <div class="card-dark rounded-xl overflow-hidden p-3 pb-4">
+                    <video src="${v.url}" controls class="w-full rounded-lg bg-black aspect-video"></video>
+                    <p class="text-sm font-bold mt-3 text-white px-1">${v.title || 'Video'}</p>
+                    <span class="text-[10px] text-slate-500 block mt-2 px-1"><i class="fa-regular fa-clock mr-1"></i> ${timeAgo(v.timestamp)}</span>
                 </div>`;
             });
         });
 
-        document.addEventListener("DOMContentLoaded", () => { switchTab('home'); });
+        document.addEventListener("DOMContentLoaded", () => { switchTab('status'); });
     </script>
 </body>
 </html>
