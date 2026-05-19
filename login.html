@@ -2,25 +2,42 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Login Owner</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Owner - UZIIFAUNAK</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght=300;400;500;600;700&display=swap');
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #0f140d; }
+    </style>
 </head>
-<body class="bg-gray-900 flex items-center justify-center min-h-screen">
+<body class="flex items-center justify-center min-h-screen px-4">
 
-    <div class="bg-black p-8 rounded-xl border border-gray-700 w-full max-w-sm">
-        <h2 class="text-white text-center mb-6 font-bold">OWNER LOGIN</h2>
+    <!-- Container Utama -->
+    <div class="bg-[#161f14] p-8 rounded-2xl border border-[#233220] w-full max-w-sm shadow-2xl">
+        <div class="text-center mb-8">
+            <h2 class="text-white text-xl font-extrabold tracking-wider">OWNER LOGIN</h2>
+            <p class="text-slate-500 text-xs mt-1">Autentikasi akses sistem portofolio</p>
+        </div>
         
-        <div id="msg" class="hidden text-red-500 text-xs text-center mb-4 font-bold">
-            LOGIN GAGAL!
+        <div id="msg" class="hidden bg-red-950/30 border border-red-900/50 text-red-400 text-[11px] text-center mb-4 py-2 rounded-lg font-bold">
+            KREDENSIAL TIDAK VALID!
         </div>
 
         <form id="form-login" class="space-y-4">
-            <input type="text" id="user" placeholder="USER ID" class="w-full p-2 bg-gray-800 text-white rounded border border-gray-600">
-            <input type="password" id="pass" placeholder="PASSWORD" class="w-full p-2 bg-gray-800 text-white rounded border border-gray-600">
-            <button type="button" id="btn-login" class="w-full bg-emerald-500 py-2 rounded font-bold text-black">
+            <div>
+                <input type="text" id="user" placeholder="USER ID" class="w-full p-3 bg-[#0b0f09] text-white rounded-xl border border-[#233220] focus:border-emerald-500/50 outline-none transition text-sm">
+            </div>
+            <div>
+                <input type="password" id="pass" placeholder="PASSWORD" class="w-full p-3 bg-[#0b0f09] text-white rounded-xl border border-[#233220] focus:border-emerald-500/50 outline-none transition text-sm">
+            </div>
+            <button type="button" id="btn-login" class="w-full bg-emerald-500 hover:bg-emerald-400 py-3 rounded-xl font-bold text-neutral-950 text-xs transition-all duration-200 mt-2">
                 AUTENTIKASI MASUK
             </button>
         </form>
+
+        <div class="mt-6 text-center">
+            <a href="index.html" class="text-[10px] text-slate-500 hover:text-emerald-400 transition underline decoration-dotted">Kembali ke Beranda</a>
+        </div>
     </div>
 
     <script>
@@ -35,7 +52,18 @@
                 window.location.href = 'owner.html';
             } else {
                 msg.classList.remove('hidden');
-                console.log("Salah input");
+                // Menggoyang elemen sedikit jika salah (efek visual)
+                document.querySelector('.bg-[#161f14]').classList.add('animate-pulse');
+                setTimeout(() => {
+                    document.querySelector('.bg-[#161f14]').classList.remove('animate-pulse');
+                }, 500);
+            }
+        });
+
+        // Tambahkan support tombol "Enter"
+        document.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                document.getElementById('btn-login').click();
             }
         });
     </script>
