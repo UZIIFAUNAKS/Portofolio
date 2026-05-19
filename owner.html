@@ -142,7 +142,7 @@
         function saveHomeStatus() { db.ref('home_custom/').update({ home_status: document.getElementById('edit-home-status').value }); alert('Status Diperbarui!'); }
         function saveProfile() { db.ref('profile/').set({ name: document.getElementById('edit-name').value, bio: document.getElementById('edit-bio').value }); alert('Profil Diperbarui!'); }
         function pushWidget() { db.ref('widgets/').push({ type: document.getElementById('widget-type').value, content: document.getElementById('widget-content').value, timestamp: now }); alert('Aktivitas Terkirim!'); }
-        function pushVideo() { db.ref('videos/').push({ title: document.getElementById('vid-title').value, url: document.getElementById('vid-url').value, privacy: 'public', timestamp: now }); alert('Sinyal Video Online!'); }
+        function pushVideo() { db.ref('videos/').push({ title: document.getElementById('vid-title').value, url: document.getElementById('vid-url').value, timestamp: now }); alert('Sinyal Video Online!'); }
         function deleteCloudItem(path, key) { if(confirm('Hapus item?')) { db.ref(`${path}/${key}`).remove(); } }
 
         db.ref('home_custom/').on('value', snap => {
