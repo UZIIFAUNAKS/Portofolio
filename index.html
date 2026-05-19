@@ -153,7 +153,6 @@
             container.innerHTML = '';
             snap.forEach(child => {
                 const v = child.val();
-                if(v.privacy !== 'public') return;
                 container.innerHTML += `<div class="card-dark rounded-xl p-2">
                     <video src="${v.url}" controls class="w-full rounded"></video>
                     <p class="text-xs font-bold mt-2">${v.title}</p>
